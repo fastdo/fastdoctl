@@ -18,8 +18,16 @@
     <ClCompile Include="src\fastdoctl_main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\functional_win.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="fastdoctl.settings" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\functional_win.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

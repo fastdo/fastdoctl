@@ -20,9 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\fastdoctl_main.cpp" />
+    <ClCompile Include="src\functional_win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fastdoctl.settings" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\functional_win.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -103,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINUX_DLL_USE;EIENML_DLL_USE;EIENEXPR_DLL_USE;EIENTPL_DLL_USE;EIENNET_DLL_USE;EIENWEBX_DLL_USE;EIENGD_DLL_USE;_CONSOLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;..\winux\include;..\eienml\include;..\eienexpr\include;..\eientpl\include;..\httpwrapper\include;..\eiennet\include;..\eienwebx\include;..\eiengd\include;..\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,7 +122,7 @@ if not exist $(SolutionDir)build\windows\include\nul mkdir $(SolutionDir)build\w
 if not exist $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\nul mkdir $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)
 if not exist $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\nul mkdir $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin
 if exist *.settings xcopy /D /Y *.settings $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
-xcopy /D /Y fastdoctl_readme.txt $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
+xcopy /D /Y README.md $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -129,7 +133,7 @@ xcopy /D /Y fastdoctl_readme.txt $(SolutionDir)build\windows\$(PlatformShortName
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINUX_DLL_USE;EIENML_DLL_USE;EIENEXPR_DLL_USE;EIENTPL_DLL_USE;EIENNET_DLL_USE;EIENWEBX_DLL_USE;EIENGD_DLL_USE;_CONSOLE;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;..\winux\include;..\eienml\include;..\eienexpr\include;..\eientpl\include;..\httpwrapper\include;..\eiennet\include;..\eienwebx\include;..\eiengd\include;..\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,7 +148,7 @@ if not exist $(SolutionDir)build\windows\include\nul mkdir $(SolutionDir)build\w
 if not exist $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\nul mkdir $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)
 if not exist $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\nul mkdir $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin
 if exist *.settings xcopy /D /Y *.settings $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
-xcopy /D /Y fastdoctl_readme.txt $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
+xcopy /D /Y README.md $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -157,7 +161,7 @@ xcopy /D /Y fastdoctl_readme.txt $(SolutionDir)build\windows\$(PlatformShortName
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINUX_DLL_USE;EIENML_DLL_USE;EIENEXPR_DLL_USE;EIENTPL_DLL_USE;EIENNET_DLL_USE;EIENWEBX_DLL_USE;EIENGD_DLL_USE;_CONSOLE;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;..\winux\include;..\eienml\include;..\eienexpr\include;..\eientpl\include;..\httpwrapper\include;..\eiennet\include;..\eienwebx\include;..\eiengd\include;..\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -174,7 +178,7 @@ if not exist $(SolutionDir)build\windows\include\nul mkdir $(SolutionDir)build\w
 if not exist $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\nul mkdir $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)
 if not exist $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\nul mkdir $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin
 if exist *.settings xcopy /D /Y *.settings $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
-xcopy /D /Y fastdoctl_readme.txt $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
+xcopy /D /Y README.md $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -187,7 +191,7 @@ xcopy /D /Y fastdoctl_readme.txt $(SolutionDir)build\windows\$(PlatformShortName
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINUX_DLL_USE;EIENML_DLL_USE;EIENEXPR_DLL_USE;EIENTPL_DLL_USE;EIENNET_DLL_USE;EIENWEBX_DLL_USE;EIENGD_DLL_USE;_CONSOLE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;..\winux\include;..\eienml\include;..\eienexpr\include;..\eientpl\include;..\httpwrapper\include;..\eiennet\include;..\eienwebx\include;..\eiengd\include;..\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -204,7 +208,7 @@ if not exist $(SolutionDir)build\windows\include\nul mkdir $(SolutionDir)build\w
 if not exist $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\nul mkdir $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)
 if not exist $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\nul mkdir $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin
 if exist *.settings xcopy /D /Y *.settings $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
-xcopy /D /Y fastdoctl_readme.txt $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
+xcopy /D /Y README.md $(SolutionDir)build\windows\$(PlatformShortName)-$(Configuration)\bin\
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

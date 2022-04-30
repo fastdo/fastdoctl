@@ -1,4 +1,4 @@
-﻿#include "functional_win.hpp"
+﻿#include "winux.hpp"
 
 #if defined(OS_WIN)
 #include <comdef.h>
@@ -21,12 +21,32 @@ private:
 
     DISABLE_OBJECT_COPY(ComInit)
 };
-#else
-
-#include "functional_unix.hpp"
-
 #endif
 
+#include "appserv.hpp"
+#include "eienwebx.hpp"
+#include "eiengd.hpp"
+
+using namespace std;
+using namespace winux;
+using namespace eiennet;
+using namespace eienwebx;
+using namespace eiengd;
+
+#if defined(_MSC_VER) || defined(WIN32)
+    #include <process.h>
+
+    #define getpid _getpid
+#else
+    #include <sys/types.h>
+    #include <sys/ipc.h>
+    #include <sys/msg.h>
+    #include <unistd.h>
+#endif
+
+#include <stdlib.h>
+#include <string.h>
+#include <signal.h>
 
 // httpserv公开数据
 AppServerExternalData __httpExternalData;
@@ -48,8 +68,7 @@ void RegisterWebHandlers( eienwebx::HttpApp & app )
         return true;
     } );
 
-    cout << GetOsVersion() << endl;
-    cout << GetExec("cmd /c ver") << endl;
+
 }
 
 int main()
