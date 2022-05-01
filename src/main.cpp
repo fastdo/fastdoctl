@@ -1,4 +1,4 @@
-﻿#include "functional_win.hpp"
+﻿#include "functional.hpp"
 
 #if defined(OS_WIN)
 #include <comdef.h>
@@ -23,7 +23,6 @@ private:
 };
 #else
 
-#include "functional_unix.hpp"
 
 #endif
 
@@ -41,16 +40,9 @@ struct HttpAppPrivateData
     winux::String exeTitle;
 };
 
-void RegisterWebHandlers( eienwebx::HttpApp & app )
-{
-    app.crossRoute( "*", "/", [] ( winux::SharedPointer<HttpRequestCtx> requestCtxPtr, eienwebx::Response & RSP, winux::StringArray const & urlPathPartArr, size_t i ) -> bool {
-        RSP.header["Access-Control-Allow-Origin"] = "*";
-        return true;
-    } );
 
-    cout << GetOsVersion() << endl;
-    cout << GetExec("cmd /c ver") << endl;
-}
+void RegisterWebHandlers( eienwebx::HttpApp & app );
+
 
 int main()
 {
@@ -103,6 +95,7 @@ int main()
     eienwebx::HttpApp app{ settings, &__httpExternalData }; // 创建一个HttpApp对象
     app.setSessServ(&sessServ);
 
+    // 注册web处理响应
     RegisterWebHandlers(app);
 
     return app.run(nullptr);

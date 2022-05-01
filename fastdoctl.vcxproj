@@ -19,14 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\fastdoctl_main.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\functional_win.cpp" />
+    <ClCompile Include="src\register_web_handlers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fastdoctl.settings" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\functional_win.hpp" />
+    <ClInclude Include="include\functional.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
