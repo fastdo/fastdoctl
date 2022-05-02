@@ -29,7 +29,7 @@ using namespace eiengd;
 #include <signal.h>
 
 // Windows错误代码转错误串
-winux::SimpleHandle<char *> GetErrorStr( uint32 err );
+SimpleHandle<char *> GetErrorStr( uint32 err );
 
 // 获取操作系统版本串
 String GetOsVersion();

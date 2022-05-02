@@ -15,13 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\functional_win.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\register_web_handlers.cpp">
+    <ClCompile Include="src\ctl_ControlCenterApp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ctl_common_win.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ctl_api_handlers.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ctl_web_handlers.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +35,16 @@
     <None Include="fastdoctl.settings" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\functional.hpp">
+    <ClInclude Include="include\ctl_ControlCenterApp.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ctl_common.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ctl_api_handlers.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ctl_web_handlers.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

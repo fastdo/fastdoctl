@@ -1,6 +1,7 @@
-﻿#include "functional.hpp"
+﻿
+#include "ctl_common.hpp"
 
-winux::SimpleHandle<char *> GetErrorStr( uint32 err )
+SimpleHandle<char *> GetErrorStr( uint32 err )
 {
     char * buf = NULL;
     DWORD dw = FormatMessageA(
@@ -13,7 +14,7 @@ winux::SimpleHandle<char *> GetErrorStr( uint32 err )
         NULL
     );
 
-    return winux::SimpleHandle<char *>( buf, NULL, LocalFree );
+    return SimpleHandle<char *>( buf, NULL, LocalFree );
 }
 
 String GetOsVersion()

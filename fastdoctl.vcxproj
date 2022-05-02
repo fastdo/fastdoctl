@@ -19,15 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ctl_api_handlers.cpp" />
+    <ClCompile Include="src\ctl_ControlCenterApp.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\functional_win.cpp" />
-    <ClCompile Include="src\register_web_handlers.cpp" />
+    <ClCompile Include="src\ctl_common_win.cpp" />
+    <ClCompile Include="src\ctl_web_handlers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fastdoctl.settings" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\functional.hpp" />
+    <ClInclude Include="include\ctl_api_handlers.hpp" />
+    <ClInclude Include="include\ctl_ControlCenterApp.hpp" />
+    <ClInclude Include="include\ctl_common.hpp" />
+    <ClInclude Include="include\ctl_web_handlers.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
