@@ -1,0 +1,4 @@
+<?cpp
+
+RSP << "FastDo control center's APIs!\n";
+RSP << REQ.doDirPath << endl;

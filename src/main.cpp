@@ -1,6 +1,8 @@
 ﻿
 #include "ctl_common.hpp"
 #include "ctl_ControlCenterApp.hpp"
+#include "ctl_api_handlers.hpp"
+#include "ctl_web_handlers.hpp"
 
 int main()
 {
@@ -19,6 +21,8 @@ int main()
     #endif
 
     ControlCenterApp app;
+
+    SET_API_HANDLER(app, get_os_version);
 
     return app.run(nullptr);
 }

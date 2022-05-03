@@ -31,9 +31,8 @@ thirdparties/spawn-fcgi/src/spawn-manager
 thirdparties/curl-7.37.1/builds/
 test/test/
 design-docs/
-fastdo-linux/include/
-fastdo-windows/MD-Debug/include/
-fastdo-windows/MD-Release/include/
+fastdoctl_mods/**/*.cpp
+fastdoctl_mods/**/*.do
 test/*.txt
 *.opt
 *.ncb

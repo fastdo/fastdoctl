@@ -35,16 +35,16 @@
     <None Include="fastdoctl.settings" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ctl_ControlCenterApp.hpp">
+    <ClInclude Include="src\ctl_api_handlers.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\ctl_common.hpp">
+    <ClInclude Include="src\ctl_common.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\ctl_api_handlers.hpp">
+    <ClInclude Include="src\ctl_ControlCenterApp.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\ctl_web_handlers.hpp">
+    <ClInclude Include="src\ctl_web_handlers.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
