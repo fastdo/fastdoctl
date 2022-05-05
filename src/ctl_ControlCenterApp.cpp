@@ -58,10 +58,10 @@ ControlCenterApp::ControlCenterApp()
         ControlCenterApp * ccApp = static_cast<ControlCenterApp *>(requestCtxPtr->app);
         String apiName = StrJoinEx( "/", urlPathPartArr, (int)i + 1 );
         cout << Mixed(apiName).myJson() << endl;
-
+        bool r;
         if ( isset( _apiHandlers, apiName ) )
         {
-            _apiHandlers[apiName]( requestCtxPtr, RSP, urlPathPartArr, i );
+            r = _apiHandlers[apiName]( requestCtxPtr, RSP, urlPathPartArr, i );
         }
         else
         {
@@ -71,8 +71,9 @@ ControlCenterApp::ControlCenterApp()
             ccApp->execWebMain( modFullPath, &RSP, ccApp->getRunParam(), &rc );
             cout << "rc=" << rc << endl;
             //cout << ccApp->_httpExternalData.serverPath << endl;
+            r = false;
         }
-        return false;
+        return r;
     } );
 
 }

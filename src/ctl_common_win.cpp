@@ -1,6 +1,9 @@
 ﻿
 #include "ctl_common.hpp"
 
+// 系统环境变量 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
+// 用户环境变量 HKEY_CURRENT_USER\Environment
+
 SimpleHandle<char *> GetErrorStr( uint32 err )
 {
     char * buf = NULL;
@@ -19,5 +22,253 @@ SimpleHandle<char *> GetErrorStr( uint32 err )
 
 String GetOsVersion()
 {
-    return StrTrim( GetExec("cmd /c ver") );
+    String version;
+    typedef void (WINAPI * PGNSI)(LPSYSTEM_INFO);
+    typedef BOOL (WINAPI * PGPI)( DWORD, DWORD, DWORD, DWORD, PDWORD );
+    OSVERSIONINFOEX osvi;
+    SYSTEM_INFO si;
+    PGNSI pGNSI;
+    PGPI pGPI;
+    BOOL bOsVersionInfoEx;
+    DWORD dwType;
+
+    ZeroMemory( &si, sizeof(SYSTEM_INFO) );
+    ZeroMemory( &osvi, sizeof(OSVERSIONINFOEX) );
+
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+
+    if( !( bOsVersionInfoEx = GetVersionEx( (OSVERSIONINFO *)&osvi ) ) )
+        return _T("");
+
+    // Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
+    pGNSI = (PGNSI)GetProcAddress( GetModuleHandle( _T("kernel32.dll") ), "GetNativeSystemInfo" );
+    if( NULL != pGNSI )
+        pGNSI(&si);
+    else
+        GetSystemInfo(&si);
+
+    version += _T("Microsoft");
+
+    if ( VER_PLATFORM_WIN32_NT == osvi.dwPlatformId && osvi.dwMajorVersion > 4 )
+    {
+        typedef void (__stdcall * PFN_RtlGetNtVersionNumbers)(DWORD*, DWORD*, DWORD*);
+        DWORD dwMajor, dwMinor, dwBuildNumber;
+        bool isHighVersion = false;
+        PFN_RtlGetNtVersionNumbers pfnRtlGetNtVersionNumbers = (PFN_RtlGetNtVersionNumbers)GetProcAddress( GetModuleHandle( _T("ntdll.dll") ), "RtlGetNtVersionNumbers");
+        if ( pfnRtlGetNtVersionNumbers )
+        {
+            pfnRtlGetNtVersionNumbers( &dwMajor, &dwMinor, &dwBuildNumber );
+
+            osvi.dwMajorVersion = dwMajor;
+            osvi.dwMinorVersion = dwMinor;
+            osvi.dwBuildNumber = dwBuildNumber;
+            isHighVersion = true;
+        }
+
+        // Test for the specific product.
+        if ( osvi.dwMajorVersion == 10 )
+        {
+            if ( osvi.dwMinorVersion == 0 )
+            {
+                if ( osvi.wProductType == VER_NT_WORKSTATION )
+                    version += _T(" Windows 10");
+                else
+                    version += _T(" Windows Server 2016");
+            }
+            goto OS_TYPE;
+        }
+        else if ( osvi.dwMajorVersion == 6 )
+        {
+            if ( osvi.dwMinorVersion == 0 )
+            {
+                if ( osvi.wProductType == VER_NT_WORKSTATION )
+                    version += _T(" Windows Vista");
+                else
+                    version += _T(" Windows Server 2008");
+            }
+            else if ( osvi.dwMinorVersion == 1 )
+            {
+                if ( osvi.wProductType == VER_NT_WORKSTATION )
+                    version += _T(" Windows 7");
+                else
+                    version += _T(" Windows Server 2008 R2");
+            }
+            else if ( osvi.dwMinorVersion == 2 )
+            {
+                if ( osvi.wProductType == VER_NT_WORKSTATION )
+                    version += _T(" Windows 8");
+                else
+                    version += _T(" Windows Server 2012");
+            }
+            else if ( osvi.dwMinorVersion == 3 )
+            {
+                if ( osvi.wProductType == VER_NT_WORKSTATION )
+                {
+                    version += _T(" Windows 8.1");
+                }
+                else
+                {
+                    version += _T(" Windows Server 2012 R2");
+                }
+            }
+
+        OS_TYPE:
+            pGPI = (PGPI)GetProcAddress( GetModuleHandle( _T("kernel32.dll") ), "GetProductInfo" );
+            pGPI( osvi.dwMajorVersion, osvi.dwMinorVersion, 0, 0, &dwType);
+
+            switch( dwType )
+            {
+            case PRODUCT_ULTIMATE:
+                version += _T(" Ultimate Edition");
+                break;
+            case PRODUCT_PROFESSIONAL:
+                version += _T(" Professional");
+                break;
+            case PRODUCT_HOME_PREMIUM:
+                version += _T(" Home Premium Edition");
+                break;
+            case PRODUCT_HOME_BASIC:
+                version += _T(" Home Basic Edition");
+                break;
+            case PRODUCT_ENTERPRISE:
+                version += _T(" Enterprise Edition");
+                break;
+            case PRODUCT_BUSINESS:
+                version += _T(" Business Edition");
+                break;
+            case PRODUCT_STARTER:
+                version += _T(" Starter Edition");
+                break;
+            case PRODUCT_CLUSTER_SERVER:
+                version += _T(" Cluster Server Edition");
+                break;
+            case PRODUCT_DATACENTER_SERVER:
+                version += _T(" Datacenter Edition");
+                break;
+            case PRODUCT_DATACENTER_SERVER_CORE:
+                version += _T(" Datacenter Edition (core installation)");
+                break;
+            case PRODUCT_ENTERPRISE_SERVER:
+                version += _T(" Enterprise Edition");
+                break;
+            case PRODUCT_ENTERPRISE_SERVER_CORE:
+                version += _T(" Enterprise Edition (core installation)");
+                break;
+            case PRODUCT_ENTERPRISE_SERVER_IA64:
+                version += _T(" Enterprise Edition for Itanium-based Systems");
+                break;
+            case PRODUCT_SMALLBUSINESS_SERVER:
+                version += _T(" Small Business Server");
+                break;
+            case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
+                version += _T(" Small Business Server Premium Edition");
+                break;
+            case PRODUCT_STANDARD_SERVER:
+                version += _T(" Standard Edition");
+                break;
+            case PRODUCT_STANDARD_SERVER_CORE:
+                version += _T(" Standard Edition (core installation)");
+                break;
+            case PRODUCT_WEB_SERVER:
+                version += _T(" Web Server Edition");
+                break;
+            }
+
+        }
+        else if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
+        {
+            if( GetSystemMetrics(SM_SERVERR2) )
+                version += _T(" Windows Server 2003 R2");
+            else if ( osvi.wSuiteMask & VER_SUITE_STORAGE_SERVER )
+                version += _T(" Windows Storage Server 2003");
+            else if ( osvi.wSuiteMask & VER_SUITE_WH_SERVER )
+                version += _T(" Windows Home Server");
+            else if( osvi.wProductType == VER_NT_WORKSTATION && si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64 )
+                version += _T(" Windows XP Professional x64 Edition");
+            else
+                version += _T(" Windows Server 2003");
+
+            // Test for the server type.
+            if ( osvi.wProductType != VER_NT_WORKSTATION )  
+            {
+                if ( si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64 )
+                {
+                    if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+                        version += _T(" Datacenter Edition for Itanium-based Systems");
+                    else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+                        version += _T(" Enterprise Edition for Itanium-based Systems");
+                }
+                else if ( si.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64 )
+                {
+                    if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+                        version += _T(" Datacenter x64 Edition");
+                    else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+                        version += _T(" Enterprise x64 Edition");
+                    else
+                        version += _T(" Standard x64 Edition");
+                }
+                else  
+                {  
+                    if ( osvi.wSuiteMask & VER_SUITE_COMPUTE_SERVER )
+                        version += _T(" Compute Cluster Edition");
+                    else if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+                        version += _T(" Datacenter Edition");
+                    else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+                        version += _T(" Enterprise Edition");
+                    else if ( osvi.wSuiteMask & VER_SUITE_BLADE )
+                        version += _T(" Web Edition");
+                    else
+                        version += _T(" Standard Edition");
+                }
+            }
+        }
+        else if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
+        {
+            version += _T(" Windows XP");
+            if( osvi.wSuiteMask & VER_SUITE_PERSONAL )
+                version += _T(" Home Edition");
+            else
+                version += _T(" Professional");
+        }
+        else if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
+        {
+            version += _T(" Windows 2000");
+            if ( osvi.wProductType == VER_NT_WORKSTATION )
+            {
+                version += _T(" Professional");
+            }
+            else
+            {
+                if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+                    version += _T(" Datacenter Server");
+                else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+                    version += _T(" Advanced Server");
+                else
+                    version += _T(" Server");
+            }
+        }
+
+        // Include service pack (if any) and build number.  
+        if( _tcslen(osvi.szCSDVersion) > 0 )  
+        {  
+            version += _T(" ");
+            version += osvi.szCSDVersion;
+        }
+
+        version += Format( TEXT(" (build %u)"), isHighVersion ? osvi.dwBuildNumber & 0xFFFF : osvi.dwBuildNumber );
+
+        if ( osvi.dwMajorVersion >= 6 )
+        {
+            if ( si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_AMD64 )
+                version += TEXT(" 64-bit");
+            else if (si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_INTEL )
+                version += _T(" 32-bit");
+        }
+    }
+    else
+    {
+        version += _T(" Windows 9x or lower");
+    }
+
+    return version;
 }
