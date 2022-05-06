@@ -24,7 +24,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ctl_common_win.cpp" />
     <ClCompile Include="src\ctl_web_handlers.cpp" />
-    <ClCompile Include="src\RegOperate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fastdoctl.settings" />
@@ -34,7 +33,6 @@
     <ClInclude Include="src\ctl_common.hpp" />
     <ClInclude Include="src\ctl_ControlCenterApp.hpp" />
     <ClInclude Include="src\ctl_web_handlers.hpp" />
-    <ClInclude Include="src\RegOperate.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

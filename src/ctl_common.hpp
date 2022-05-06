@@ -34,8 +34,11 @@ SimpleHandle<char *> GetErrorStr( uint32 err );
 // 获取操作系统版本串
 String GetOsVersion();
 
+// 扫描软件安装信息，获取安装路径
+bool ScanSoftwareInstalledInfo( String const & strRegexSoftwareName, Mixed * installedColl );
+
 // 检测编译器是否安装
-bool CheckCompiler( String * installedPath );
+bool CheckCompiler( String * compilerName, String * installedPath );
 
 // 检测第三方库是否安装
 bool CheckThirdpartiesLibs();

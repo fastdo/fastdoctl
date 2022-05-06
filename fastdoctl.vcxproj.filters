@@ -30,9 +30,6 @@
     <ClCompile Include="src\ctl_web_handlers.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\RegOperate.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="fastdoctl.settings" />
@@ -48,9 +45,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\ctl_web_handlers.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="src\RegOperate.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
