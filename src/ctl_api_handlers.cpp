@@ -10,35 +10,38 @@
 
 bool API_get_os_version( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
 {
-    RSP << GetOsVersion();
+    Mixed result;
+    result.createCollection();
+    result["os"] = GetOsVersion();
 
+    RSP << result.myJson( false, "    ", "\n" );
     return false;
 }
 
 bool API_check_compiler(SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i)
 {
-    //RSP.setMimeType("text/plain");
-    //RSP.setCharset("utf-8");
-    //RSP.header["Content-Type"] = "text/html; charset=utf-8";
+    String compilerName, installPath;
+    Mixed result;
+    result.createCollection();
 
-    /*Mixed installed;
-    if ( ScanSoftwareInstalledInfo( "Visual Studio( .*)? 2017", &installed ) )
+    if ( CheckCompiler( &compilerName, &installPath ) )
     {
-        RSP << "<pre>" << installed.myJson(true, "    ", "\n") << "</pre>" << endl;
-    }*/
+        result["compiler"] = compilerName;
+        result["installPath"] = installPath;
 
-    String compilerName, installedPath;
+        String vsToolsBat64 = CombinePath( installPath, "VC\\Auxiliary\\Build\\vcvars64.bat" );
+        if ( DetectPath(vsToolsBat64) )
+        {
+            result["VSToolsBat64"] = vsToolsBat64;
+        }
+        String vsToolsBat32 = CombinePath( installPath, "VC\\Auxiliary\\Build\\vcvars32.bat" );
+        if ( DetectPath(vsToolsBat32) )
+        {
+            result["VSToolsBat32"] = vsToolsBat32;
+        }
 
-    if ( CheckCompiler( &compilerName, &installedPath ) )
-    {
-        RSP << compilerName << " = " << installedPath;
     }
 
-    /*if ( ScanSoftwareInstalledInfo( ".*", &installed ) )
-    {
-        RSP << "<pre>" << installed.myJson(true, "    ", "\n") << "</pre>" << endl;
-    }
-    //*/
-
+    RSP << result.myJson( false, "    ", "\n" );
     return false;
 }
