@@ -285,7 +285,7 @@ HKEY RegistryOpenKey( LPCSTR keyName, BOOL wantWrite )
 {
     HKEY baseKeyHandle = NULL, keyHandle = NULL;
     LPCSTR str = strchr( keyName, '\\' );
-    if ( !str ) str = keyName + strlen(keyName);	//只是根键的情况.
+    if ( !str ) str = keyName + strlen(keyName); //只是根键的情况.
     if ( !_strnicmp( keyName, "HKEY_CLASSES_ROOT", str - keyName ) || !_strnicmp( keyName, "HKCR", str - keyName ) )
         baseKeyHandle = HKEY_CLASSES_ROOT;
     else if ( !_strnicmp( keyName, "HKEY_CURRENT_CONFIG", str - keyName ) || !_strnicmp( keyName, "HKCC", str - keyName ) )
@@ -395,7 +395,7 @@ bool ScanSoftwareInstalledInfo( String const & strRegexSoftwareName, Mixed * ins
     return r;
 }
 
-bool CheckCompiler( String * compilerName, String * installedPath )
+bool CheckCompiler( String * compilerName, String * installPath )
 {
     Mixed installedColl;
     if ( ScanSoftwareInstalledInfo( "Visual Studio( .*)? 2017", &installedColl ) )
@@ -405,9 +405,70 @@ bool CheckCompiler( String * compilerName, String * installedPath )
         {
             auto & pr = installedColl.getPair(i);
             *compilerName = pr.first;
-            *installedPath = pr.second;
+            *installPath = pr.second;
             return true;
         }
     }
     return false;
+}
+
+bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo )
+{
+    libsInfo->createCollection();
+    bool r = true;
+    String exePath = FilePath( GetExecutablePath() );
+    String rootPath = PathWithSep( NormalizePath( CombinePath( exePath, ".." ) ) );
+    for ( String const & lib : libs )
+    {
+        if ( lib == "fcgi" )
+        {
+            String libPath = CombinePath( exePath, "libfcgi.dll" );
+            if ( DetectPath(libPath) )
+            {
+                (*libsInfo)[lib] = StrSubtractA( libPath, rootPath );
+            }
+            else
+            {
+                r = false;
+            }
+        }
+        else if ( lib == "mysql" )
+        {
+            String libPath = CombinePath( exePath, "libmysql.dll" );
+            if ( DetectPath(libPath) )
+            {
+                (*libsInfo)[lib] = StrSubtractA( libPath, rootPath );
+            }
+            else
+            {
+                r = false;
+            }
+        }
+        else if ( lib == "pthread" )
+        {
+            String libPath = CombinePath( exePath, "pthreadVC2.dll" );
+            if ( DetectPath(libPath) )
+            {
+                (*libsInfo)[lib] = StrSubtractA( libPath, rootPath );
+            }
+            else
+            {
+                r = false;
+            }
+        }
+        else
+        {
+            String libPath = CombinePath( exePath, lib + ".dll" );
+            if ( DetectPath(libPath) )
+            {
+                (*libsInfo)[lib] = StrSubtractA( libPath, rootPath );
+            }
+            else
+            {
+                r = false;
+            }
+        }
+    }
+
+    return r;
 }

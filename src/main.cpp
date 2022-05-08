@@ -23,8 +23,9 @@ int main()
     ControlCenterApp app;
 
     // 设置处理器
-    SET_API_HANDLER( app, get_os_version );
-    SET_API_HANDLER( app, check_compiler );
+    SET_API_HANDLER( app, get_os_info );
+    SET_API_HANDLER( app, get_compiler_info );
+    SET_API_HANDLER( app, get_libs_info );
 
     return app.run(nullptr);
 }

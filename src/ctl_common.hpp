@@ -37,11 +37,11 @@ String GetOsVersion();
 // 扫描软件安装信息，获取安装路径
 bool ScanSoftwareInstalledInfo( String const & strRegexSoftwareName, Mixed * installedColl );
 
-// 检测编译器是否安装
-bool CheckCompiler( String * compilerName, String * installedPath );
+// 检测编译器是否安装，获取编译器名和安装路径
+bool CheckCompiler( String * compilerName, String * installPath );
 
 // 检测第三方库是否安装
-bool CheckThirdpartiesLibs();
+bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo );
 
 // 检测PATH环境变量
 bool CheckPathEnvVar();

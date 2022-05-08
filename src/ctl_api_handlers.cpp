@@ -8,7 +8,7 @@
 #import "ahadmin.tlb"
 #endif
 
-bool API_get_os_version( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
+bool API_get_os_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
 {
     Mixed result;
     result.createCollection();
@@ -18,7 +18,7 @@ bool API_get_os_version( SharedPointer<HttpRequestCtx> requestCtxPtr, Response &
     return false;
 }
 
-bool API_check_compiler(SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i)
+bool API_get_compiler_info(SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i)
 {
     String compilerName, installPath;
     Mixed result;
@@ -41,6 +41,17 @@ bool API_check_compiler(SharedPointer<HttpRequestCtx> requestCtxPtr, Response & 
         }
 
     }
+
+    RSP << result.myJson( false, "    ", "\n" );
+    return false;
+}
+
+bool API_get_libs_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
+{
+    Mixed result;
+    result.createCollection();
+
+    CheckThirdpartiesLibs( { "fcgi", "mysql", "pthread", "sqlite3secure" }, &result );
 
     RSP << result.myJson( false, "    ", "\n" );
     return false;
