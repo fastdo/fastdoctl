@@ -26,6 +26,7 @@ int main()
     SET_API_HANDLER( app, get_os_info );
     SET_API_HANDLER( app, get_compiler_info );
     SET_API_HANDLER( app, get_libs_info );
+    SET_API_HANDLER( app, get_envvars_info );
 
     return app.run(nullptr);
 }

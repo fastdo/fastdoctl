@@ -13,35 +13,14 @@ bool API_get_os_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RS
     Mixed result;
     result.createCollection();
     result["os"] = GetOsVersion();
-
     RSP << result.myJson( false, "    ", "\n" );
     return false;
 }
 
-bool API_get_compiler_info(SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i)
+bool API_get_compiler_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
 {
-    String compilerName, installPath;
     Mixed result;
-    result.createCollection();
-
-    if ( CheckCompiler( &compilerName, &installPath ) )
-    {
-        result["compiler"] = compilerName;
-        result["installPath"] = installPath;
-
-        String vsToolsBat64 = CombinePath( installPath, "VC\\Auxiliary\\Build\\vcvars64.bat" );
-        if ( DetectPath(vsToolsBat64) )
-        {
-            result["VSToolsBat64"] = vsToolsBat64;
-        }
-        String vsToolsBat32 = CombinePath( installPath, "VC\\Auxiliary\\Build\\vcvars32.bat" );
-        if ( DetectPath(vsToolsBat32) )
-        {
-            result["VSToolsBat32"] = vsToolsBat32;
-        }
-
-    }
-
+    CheckCompilerInfo( "Visual Studio( .*)? 2017", &result );
     RSP << result.myJson( false, "    ", "\n" );
     return false;
 }
@@ -49,10 +28,15 @@ bool API_get_compiler_info(SharedPointer<HttpRequestCtx> requestCtxPtr, Response
 bool API_get_libs_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
 {
     Mixed result;
-    result.createCollection();
-
     CheckThirdpartiesLibs( { "fcgi", "mysql", "pthread", "sqlite3secure" }, &result );
+    RSP << result.myJson( false, "    ", "\n" );
+    return false;
+}
 
+bool API_get_envvars_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
+{
+    Mixed result;
+    CheckEnvVars(&result);
     RSP << result.myJson( false, "    ", "\n" );
     return false;
 }

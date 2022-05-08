@@ -8,9 +8,6 @@
 #import "ahadmin.tlb"
 #endif
 
-// 系统环境变量 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
-// 用户环境变量 HKEY_CURRENT_USER\Environment
-
 SimpleHandle<char *> GetErrorStr( uint32 err )
 {
     char * buf = NULL;
@@ -395,10 +392,10 @@ bool ScanSoftwareInstalledInfo( String const & strRegexSoftwareName, Mixed * ins
     return r;
 }
 
-bool CheckCompiler( String * compilerName, String * installPath )
+bool ScanCompilerInstallPath( String const & strRegexSoftwareName, String * compilerName, String * installPath )
 {
     Mixed installedColl;
-    if ( ScanSoftwareInstalledInfo( "Visual Studio( .*)? 2017", &installedColl ) )
+    if ( ScanSoftwareInstalledInfo( strRegexSoftwareName, &installedColl ) )
     {
         int n = installedColl.getCount();
         for ( int i = 0; i < n; ++i )
@@ -408,6 +405,33 @@ bool CheckCompiler( String * compilerName, String * installPath )
             *installPath = pr.second;
             return true;
         }
+    }
+    return false;
+}
+
+bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInfo )
+{
+    compilerInfo->createCollection();
+
+    String compilerName, installPath;
+
+    if ( ScanCompilerInstallPath( strRegexSoftwareName, &compilerName, &installPath ) )
+    {
+        (*compilerInfo)["compiler"] = compilerName;
+        (*compilerInfo)["installPath"] = installPath;
+
+        String vsToolsBat64 = CombinePath( installPath, "VC\\Auxiliary\\Build\\vcvars64.bat" );
+        if ( DetectPath(vsToolsBat64) )
+        {
+            (*compilerInfo)["VSToolsBat64"] = vsToolsBat64;
+        }
+        String vsToolsBat32 = CombinePath( installPath, "VC\\Auxiliary\\Build\\vcvars32.bat" );
+        if ( DetectPath(vsToolsBat32) )
+        {
+            (*compilerInfo)["VSToolsBat32"] = vsToolsBat32;
+        }
+
+        return true;
     }
     return false;
 }
@@ -471,4 +495,30 @@ bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo
     }
 
     return r;
+}
+
+// 系统环境变量 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
+// 用户环境变量 HKEY_CURRENT_USER\Environment
+bool CheckEnvVars( Mixed * envvarsInfo )
+{
+    envvarsInfo->createCollection();
+    String strKey = R"(HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment)";
+    SimpleHandle<HKEY> key( RegistryOpenKey( strKey.c_str(), TRUE ), 0, RegistryCloseKey );
+    CHAR szName[256] = { 0 };
+    DWORD dwNameLen = sizeof(szName);
+    CHAR szValue[1024] = { 0 };
+    DWORD dwValueLen = sizeof(szValue);
+    DWORD dwType = REG_NONE;
+    for ( DWORD i = 0; RegEnumValue( key.get(), i, szName, &dwNameLen, NULL, &dwType, (LPBYTE)szValue, &dwValueLen ) != ERROR_NO_MORE_ITEMS; ++i )
+    {
+        //cout << szName << endl;
+        (*envvarsInfo)[szName] = szValue;
+        //szName[256] = { 0 };
+        dwNameLen = sizeof(szName);
+        //szValue[1024] = { 0 };
+        dwValueLen = sizeof(szValue);
+        dwType = REG_NONE;
+    }
+
+    return false;
 }

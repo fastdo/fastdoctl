@@ -37,14 +37,17 @@ String GetOsVersion();
 // 扫描软件安装信息，获取安装路径
 bool ScanSoftwareInstalledInfo( String const & strRegexSoftwareName, Mixed * installedColl );
 
+// 扫描编译器安装路径
+bool ScanCompilerInstallPath( String const & strRegexSoftwareName, String * compilerName, String * installPath );
+
 // 检测编译器是否安装，获取编译器名和安装路径
-bool CheckCompiler( String * compilerName, String * installPath );
+bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInfo );
 
 // 检测第三方库是否安装
 bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo );
 
-// 检测PATH环境变量
-bool CheckPathEnvVar();
+// 检测环境变量
+bool CheckEnvVars( Mixed * envvarsInfo );
 
 // 修改ecp.conf文件中编译器启动脚本路径的配置VSToolsBat
 
