@@ -52,3 +52,5 @@ bool CheckEnvVars( Mixed * envvarsInfo );
 // 修改ecp.conf文件中编译器启动脚本路径的配置VSToolsBat
 
 // 配置IIS
+
+// 查找FastDo的IIS设置，包括模块处理器设置和fcgi应用程序池

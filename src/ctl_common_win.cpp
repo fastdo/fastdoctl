@@ -505,20 +505,49 @@ bool CheckEnvVars( Mixed * envvarsInfo )
     String strKey = R"(HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment)";
     SimpleHandle<HKEY> key( RegistryOpenKey( strKey.c_str(), TRUE ), 0, RegistryCloseKey );
     CHAR szName[256] = { 0 };
-    DWORD dwNameLen = sizeof(szName);
     CHAR szValue[1024] = { 0 };
+    DWORD dwNameLen = sizeof(szName);
     DWORD dwValueLen = sizeof(szValue);
     DWORD dwType = REG_NONE;
+    regex re( "FASTDO_(.+)", regex::ECMAScript );
+    StringArray targetVars = {
+        "BASE",
+        "INCLUDE",
+        "X64D_BIN",
+        "X64D_LIB",
+        "X64R_BIN",
+        "X64R_LIB",
+        "X86D_BIN",
+        "X86D_LIB",
+        "X86R_BIN",
+        "X86R_LIB"
+    };
+    for ( String const & var : targetVars )
+    {
+        (*envvarsInfo)["FASTDO_" + var] = Mixed();
+    }
     for ( DWORD i = 0; RegEnumValue( key.get(), i, szName, &dwNameLen, NULL, &dwType, (LPBYTE)szValue, &dwValueLen ) != ERROR_NO_MORE_ITEMS; ++i )
     {
-        //cout << szName << endl;
-        (*envvarsInfo)[szName] = szValue;
-        //szName[256] = { 0 };
+        match_results<String::const_iterator> mres;
+        String strName = szName;
+        if ( regex_match( strName, mres, re ) )
+        {
+            //cout << strName << ", type=" << dwType << ", " << mres[1] << endl;
+            (*envvarsInfo)[strName] = szValue;
+        }
+
         dwNameLen = sizeof(szName);
-        //szValue[1024] = { 0 };
         dwValueLen = sizeof(szValue);
         dwType = REG_NONE;
     }
-
-    return false;
+    bool r = true;
+    for ( String const & var : targetVars )
+    {
+        if ( (*envvarsInfo)["FASTDO_" + var].isNull() )
+        {
+            r = false;
+            break;
+        }
+    }
+    return r;
 }
