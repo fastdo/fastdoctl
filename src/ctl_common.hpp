@@ -50,7 +50,10 @@ bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo
 bool CheckEnvVars( Mixed * envvarsInfo );
 
 // 修改ecp.conf文件中编译器启动脚本路径的配置VSToolsBat
-
-// 配置IIS
+bool ModifyEcpConfig( Mixed const & configs );
 
 // 查找FastDo的IIS设置，包括模块处理器设置和fcgi应用程序池
+bool CheckWebServerConfig( Mixed * configInfo );
+
+// 配置IIS
+bool ModifyWebServerConfig();

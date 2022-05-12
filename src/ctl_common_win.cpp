@@ -551,3 +551,8 @@ bool CheckEnvVars( Mixed * envvarsInfo )
     }
     return r;
 }
+
+bool ModifyEcpConfig( Mixed const & configs )
+{
+    return false;
+}
