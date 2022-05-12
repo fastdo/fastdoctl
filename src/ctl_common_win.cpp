@@ -554,5 +554,8 @@ bool CheckEnvVars( Mixed * envvarsInfo )
 
 bool ModifyEcpConfig( Mixed const & configs )
 {
+    String exePath = FilePath( GetExecutablePath() );
+
+
     return false;
 }
