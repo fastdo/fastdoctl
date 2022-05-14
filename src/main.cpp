@@ -21,13 +21,13 @@ int main()
     #endif
 
     ControlCenterApp app;
-
     // 设置处理器
     SET_API_HANDLER( app, get_os_info );
     SET_API_HANDLER( app, get_compiler_info );
     SET_API_HANDLER( app, get_libs_info );
     SET_API_HANDLER( app, get_envvars_info );
-
     app.run(nullptr);
+    //*/
+
     return 0;
 }

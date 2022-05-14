@@ -555,7 +555,31 @@ bool CheckEnvVars( Mixed * envvarsInfo )
 bool ModifyEcpConfig( Mixed const & configs )
 {
     String exePath = FilePath( GetExecutablePath() );
+    String ecpConfigPath = CombinePath( exePath, "ecp.conf" );
+    String configContent = FileGetContents(ecpConfigPath);
+    size_t offset = 0;
 
-
-    return false;
+    int n = configs.getCount();
+    for ( int i = 0; i < n; ++i )
+    {
+        auto const & pr = configs.getPair(i);
+        size_t pos = configContent.find( "\n" + *pr.first._pStr, offset );
+        if ( pos != String::npos )
+        {
+            pos++;
+            size_t startPos = pos;
+            while ( pos < configContent.length() && configContent[pos] != '\n' )
+            {
+                pos++;
+            }
+            size_t endPos = pos;
+            String newConfigContent;
+            newConfigContent = configContent.substr(0, startPos);
+            newConfigContent += *pr.first._pStr + "=" + *pr.second._pStr;
+            newConfigContent += configContent.substr(endPos);
+            configContent = newConfigContent;
+        }
+    }
+    bool r = FilePutContents( ecpConfigPath, configContent );
+    return r;
 }
