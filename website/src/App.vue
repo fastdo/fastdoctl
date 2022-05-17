@@ -5,7 +5,7 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-    <img alt="Vue logo" src="./assets/favicon128x128.png" />
+    <!-- <img alt="Vue logo" src="./assets/favicon128x128.png" /> -->
     <HelloWorld msg="FastDo Control Center" />
 </template>
 
