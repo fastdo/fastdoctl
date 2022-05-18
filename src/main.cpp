@@ -16,6 +16,7 @@ int main()
     winux::SetLocale __loc__;
     eiengd::GdInit __gdInit__;
     eiennet::SocketLib __sockInit__;
+
     #if defined(OS_WIN)
     ComInit comInit;
     #endif

@@ -53,4 +53,4 @@ bool ModifyEcpConfig( Mixed const & configs );
 bool CheckWebServerConfig( Mixed * configInfo );
 
 // 配置IIS
-bool ModifyWebServerConfig();
+bool ModifyWebServerConfig( Mixed const & configs );
