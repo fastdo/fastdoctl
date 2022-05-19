@@ -23,7 +23,11 @@ const count = ref(0)
         </div>
 
     </div>
-
+    <div class="dark">
+        <div class="bg-white dark:bg-black dark:text-white">
+            Hello
+        </div>
+    </div>
     <!-- <p>当前操作系统：Windows 10 x64
     </p>
 

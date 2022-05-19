@@ -583,3 +583,102 @@ bool ModifyEcpConfig( Mixed const & configs )
     bool r = FilePutContents( ecpConfigPath, configContent );
     return r;
 }
+
+bool CheckWebServerConfig( Mixed * configInfo )
+{
+    configInfo->createCollection();
+
+    using namespace AppHostAdminLibrary;
+    try
+    {
+        IAppHostWritableAdminManagerPtr adminManager;
+
+        adminManager.CreateInstance( __uuidof(AppHostWritableAdminManager), NULL, CLSCTX_INPROC_SERVER );
+
+        printf("IAppHostWritableAdminManager ok\n");
+
+        IAppHostElementPtr handlersSection;
+        handlersSection = adminManager->GetAdminSection( L"system.webServer/handlers", L"MACHINE/WEBROOT/APPHOST/Default Web Site" );
+
+        IAppHostElementCollectionPtr handlersCollection = handlersSection->Collection;
+        DWORD handlersCount = handlersCollection->Count;
+        cout << handlersCount << endl;
+
+        IAppHostPropertyCollectionPtr propertiesCollection = handlersSection->Properties;
+        DWORD nProperties = propertiesCollection->Count;
+
+        for ( DWORD i = 0; i < nProperties; ++i )
+        {
+            IAppHostPropertyPtr prop = propertiesCollection->Item[i];
+            cout << prop->Name << " = ";
+            cout << prop->StringValue << endl;
+        }
+
+        Mixed & handlersArr = (*configInfo)["handlers"].createArray();
+
+        for ( DWORD i = 0; i < handlersCount; i++ )
+        {
+            Mixed handlerInfo;
+            handlerInfo.createCollection();
+
+            IAppHostElementPtr handlerElem = handlersCollection->Item[i];
+            //cout << i << ", " << handlerElem->Name << " -----------------------------------------------------------------\n";
+
+            //IAppHostPropertyPtr nameProp = handlerElem->GetPropertyByName(L"name");
+            //cout << nameProp->Name << ": " << nameProp->StringValue << endl;
+
+            IAppHostPropertyCollectionPtr props = handlerElem->Properties;
+            if ( props )
+            {
+                DWORD propCount = props->Count;
+                for ( DWORD j = 0; j < propCount; j++ )
+                {
+                    IAppHostPropertyPtr prop = props->Item[j];
+
+                    Mixed & hi = handlerInfo[ prop->Name.operator const char *() ];
+                    hi.createCollection();
+
+                    hi["vt"] = prop->Value.vt;
+
+                    switch ( prop->Value.vt )
+                    {
+                    case VT_BSTR:
+                        hi["value"] = prop->StringValue.operator const char *();
+                        break;
+                    case VT_BOOL:
+                        hi["value"] = prop->Value.boolVal == VARIANT_TRUE ? true : false;
+                        break;
+                    case VT_UI4:
+                        hi["value"] = prop->Value.uintVal;
+                        break;
+                    case VT_I4:
+                    default:
+                        hi["value"] = prop->Value.intVal;
+                        break;
+                    }
+
+                    //cout << prop->Name << " = ";
+                    //cout << prop->StringValue << " ";
+                    //cout << prop->Value.vt << endl;
+                }
+            }//*/
+
+            handlersArr.add(handlerInfo);
+        }
+
+        //hr = ListSiteInfo( pSitesCollection.GetInterfacePtr() );
+    }
+    catch ( _com_error const & e )
+    {
+        cout << e.Description() << endl;
+    }
+
+
+    return false;
+}
+
+bool ModifyWebServerConfig( Mixed const & configs )
+{
+    return false;
+}
+

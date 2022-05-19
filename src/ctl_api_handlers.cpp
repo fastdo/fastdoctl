@@ -40,3 +40,11 @@ bool API_get_envvars_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response
     RSP << result.myJson( false, "    ", "\n" );
     return false;
 }
+
+bool API_get_webserver_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
+{
+    Mixed result;
+    CheckWebServerConfig(&result);
+    RSP << result.myJson( false, "    ", "\n" );
+    return false;
+}
