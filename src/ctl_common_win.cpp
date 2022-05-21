@@ -618,8 +618,6 @@ bool CheckWebServerConfig( Mixed * configInfo )
 
         for ( DWORD i = 0; i < handlersCount; i++ )
         {
-            Mixed handlerInfo;
-            handlerInfo.createCollection();
 
             IAppHostElementPtr handlerElem = handlersCollection->Item[i];
             //cout << i << ", " << handlerElem->Name << " -----------------------------------------------------------------\n";
@@ -628,6 +626,11 @@ bool CheckWebServerConfig( Mixed * configInfo )
             //cout << nameProp->Name << ": " << nameProp->StringValue << endl;
 
             IAppHostPropertyCollectionPtr props = handlerElem->Properties;
+
+            Mixed handlerInfo;
+            handlerInfo.createCollection();
+            bool isFastDoHandler = true;
+
             if ( props )
             {
                 DWORD propCount = props->Count;
@@ -635,7 +638,15 @@ bool CheckWebServerConfig( Mixed * configInfo )
                 {
                     IAppHostPropertyPtr prop = props->Item[j];
 
-                    Mixed & hi = handlerInfo[ prop->Name.operator const char *() ];
+                    String propName = prop->Name.operator const char *();
+
+                    regex reName{".*FastDo.*"};
+                    if ( propName == "name" && !regex_match( prop->StringValue.operator const char *(), reName ) )
+                    {
+                        isFastDoHandler = false;
+                    }
+
+                    Mixed & hi = handlerInfo[propName];
                     hi.createCollection();
 
                     hi["vt"] = prop->Value.vt;
@@ -656,14 +667,11 @@ bool CheckWebServerConfig( Mixed * configInfo )
                         hi["value"] = prop->Value.intVal;
                         break;
                     }
-
-                    //cout << prop->Name << " = ";
-                    //cout << prop->StringValue << " ";
-                    //cout << prop->Value.vt << endl;
                 }
-            }//*/
+            }
 
-            handlersArr.add(handlerInfo);
+            if ( isFastDoHandler )
+                handlersArr.add(handlerInfo);
         }
 
         //hr = ListSiteInfo( pSitesCollection.GetInterfacePtr() );
