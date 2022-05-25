@@ -595,7 +595,7 @@ bool CheckWebServerConfig( Mixed * configInfo )
 
         adminManager.CreateInstance( __uuidof(AppHostWritableAdminManager), NULL, CLSCTX_INPROC_SERVER );
 
-        printf("IAppHostWritableAdminManager ok\n");
+        //printf("IAppHostWritableAdminManager ok\n");
 
         IAppHostElementPtr handlersSection;
         handlersSection = adminManager->GetAdminSection( L"system.webServer/handlers", L"MACHINE/WEBROOT/APPHOST/Default Web Site" );
@@ -680,7 +680,6 @@ bool CheckWebServerConfig( Mixed * configInfo )
     {
         cout << e.Description() << endl;
     }
-
 
     return false;
 }
