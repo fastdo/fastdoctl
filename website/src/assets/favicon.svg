@@ -1,0 +1,11 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="480" height="480" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
+
+<rect x="0" y="0" rx="15%" ry="15%" width="480" height="480" fill="#6D7BE2" />
+<path d="M 65 68 q 650 -50 10 350" stroke="white" stroke-width="60" fill="none" />
+
+<path d="M 159 260 l 240 30" stroke="white" stroke-width="60" fill="none" />
+
+</svg>
