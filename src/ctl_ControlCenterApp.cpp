@@ -16,7 +16,7 @@ ControlCenterApp::ControlCenterApp()
     winux::ConfigureSettings settings;
     settings.set( "$ExeDirPath", _privateData.exeDirPath );
     settings.set( "$WorkDirPath", winux::RealPath("") );
-    settings.load( winux::CombinePath( _privateData.exeDirPath, _privateData.exeTitle + ".settings" ) );
+    settings.load( winux::CombinePath( settings.get("$WorkDirPath"), _privateData.exeTitle + ".settings" ) );
     // 输出配置信息
     winux::ColorOutputLine( winux::fgYellow, settings.val().myJson( true, "    ", "\n" ) );
 

@@ -19,13 +19,12 @@ fastdoctl_SOURCES = \
     ctl_web_handlers.cpp \
     main.cpp
 
-fastdoctl_LDADD = -lwinux -leienml
+fastdoctl_LDADD = -lwinux -leienml -lhttpwrapper -leiennet -leienwebx -leiengd
 fastdoctl_LDFLAGS = -L../winux/src/.libs -L../eienml/src/.libs -Wl,-rpath -Wl,../lib
 
 configdir = @bindir@
 
-config_DATA = \
-    fastdoctl_readme.txt
+config_DATA = 
 
 EXTRA_DIST = \
     $(config_DATA) \

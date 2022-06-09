@@ -5,7 +5,7 @@ AC_PREREQ([2.63])
 AC_INIT([fastdoctl], [1.0], [zth555@qq.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([src/fastdoctl_main.cpp])
+AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 AC_LANG([C++])

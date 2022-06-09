@@ -21,16 +21,7 @@ config.h
 configure
 stamp-h1
 libtool
-components/eiendb/*.sql
-components/ecp/ecp
-components/ecp/ecpc
-components/appserv/webx_fcgiserv
-components/appserv/webx_httpserv
-thirdparties/spawn-fcgi/src/spawn-fcgi
-thirdparties/spawn-fcgi/src/spawn-manager
-thirdparties/curl-7.37.1/builds/
-test/test/
-design-docs/
+src/fastdoctl
 fastdoctl_mods/**/*.cpp
 fastdoctl_mods/**/*.do
 test/*.txt
