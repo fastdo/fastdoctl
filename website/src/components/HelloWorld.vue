@@ -1,9 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
+import axios from 'axios'
 
 defineProps<{ msg: string }>()
+defineEmits<{
+    (event: 'pointerenter') : void
+    (event: 'poinetrleave') : void
+}>()
 
 const count = ref(0)
+
+const envInfo = reactive( {
+    os: ''
+} )
+
+axios.get('http://localhost:16060/api/get_os_info').then( ( value ) => {
+    //console.log(value.data)
+    envInfo.os = value.data.os
+} )
+
 </script>
 
 <template>
@@ -30,7 +45,15 @@ const count = ref(0)
         </svg>
     </div>
 
-    <div class="text-2xl border-2 mx-2 p-4 rounded-lg">环境检测</div>
+    <div class="border-2 mx-2 p-4 rounded-lg">
+        <h1 class="text-2xl text-center">环境检测</h1>
+        <table class="border-collapse w-full table-fixed">
+        <tr class="border-b">
+            <td class="w-1/4">操作系统</td>
+            <td>{{envInfo.os}}</td>
+        </tr>
+        </table>
+    </div>
 </template>
 
 <style scoped>
