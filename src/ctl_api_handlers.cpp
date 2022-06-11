@@ -17,6 +17,16 @@ bool API_get_os_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RS
     return false;
 }
 
+bool API_get_fastdo_package( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
+{
+    Mixed result;
+    result.createCollection();
+    result["package"] = GetFastdoPackage();
+    result["version"] = Json( FileGetContents( result["package"].toAnsi() + "/bin/fastdo.ver" ) );
+    RSP << result.myJson( false, "    ", "\n" );
+    return false;
+}
+
 bool API_get_compiler_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
 {
     Mixed result;

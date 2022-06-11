@@ -31,6 +31,9 @@ using namespace eiengd;
 // 获取操作系统版本串
 String GetOsVersion();
 
+// 获取fastdo软件包路径
+String GetFastdoPackage();
+
 // 扫描软件安装信息，获取安装路径
 bool ScanSoftwareInstalledInfo( String const & strRegexSoftwareName, Mixed * installedColl );
 

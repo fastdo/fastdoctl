@@ -34,6 +34,11 @@ String GetOsVersion()
     return Json(prettyName);
 }
 
+String GetFastdoPackage()
+{
+    return NormalizePath( FilePath( GetExecutablePath() ) + DirSep + ".." );
+}
+
 bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInfo )
 {
     compilerInfo->createCollection();
