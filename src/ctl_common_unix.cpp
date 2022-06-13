@@ -56,12 +56,15 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
         ( "script", "" )
     ;
 
-    return gppInstallPath.find("no g++") == String::npos;
+    (*compilerInfo)["check"] = gppInstallPath.find("no g++") == String::npos;
+    return (*compilerInfo)["check"];
 }
 
 bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo )
 {
     libsInfo->createCollection();
+
+    // mysql, curl
 
     return false;
 }

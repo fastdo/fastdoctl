@@ -28,7 +28,8 @@ int main()
     SET_API_HANDLER( app, get_libs_info );
     SET_API_HANDLER( app, get_envvars_info );
     SET_API_HANDLER( app, get_webserver_info );
-    SET_API_HANDLER( app, get_fastdo_package );
+    SET_API_HANDLER( app, get_fastdo_info );
+
     app.run(nullptr);
     //*/
 
