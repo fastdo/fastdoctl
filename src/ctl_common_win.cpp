@@ -421,7 +421,9 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
 
     String compilerName, installPath;
 
-    if ( ScanCompilerInstallPath( strRegexSoftwareName, &compilerName, &installPath ) )
+    (*compilerInfo)["check"] = ScanCompilerInstallPath( strRegexSoftwareName, &compilerName, &installPath );
+
+    if ( (*compilerInfo)["check"] )
     {
         (*compilerInfo)["compiler"] = compilerName;
         (*compilerInfo)["installPath"] = installPath;

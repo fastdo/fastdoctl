@@ -30,6 +30,9 @@
     <ClCompile Include="src\ctl_web_handlers.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\ctl_common_unix.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="fastdoctl.settings" />
