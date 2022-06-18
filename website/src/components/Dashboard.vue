@@ -6,6 +6,10 @@ const count = ref(0)
 
 const envInfo = reactive( {
     osName: '',
+    fastdo: {
+        path: '',
+        version: '',
+    },
     compiler: {
         compiler: '',
         installPath: '',
@@ -13,9 +17,13 @@ const envInfo = reactive( {
     },
 } )
 
-const serverRootUrl = 'http://localhost:16060'
+const serverRootUrl = 'http://192.168.138.143:16060'
 axios.get( serverRootUrl + '/api/get_compiler_info' ).then( ( value ) => {
     envInfo.compiler = value.data
+    console.log( value.data)
+} )
+axios.get( serverRootUrl + '/api/get_fastdo_info' ).then( ( value ) => {
+    envInfo.fastdo = value.data
     console.log( value.data)
 } )
 axios.get( serverRootUrl + '/api/get_os_info' ).then( ( value ) => {
@@ -47,28 +55,42 @@ axios.get( serverRootUrl + '/api/get_os_info' ).then( ( value ) => {
     </div>
 
     <div class="mx-2 px-4">
-        <h1 class="text-2xl text-center p-2">环境检测</h1>
-        <table class="border-collapse w-full table-fixed">
-        <tr class="border-b align-top">
-            <td class="w-1/4">操作系统</td>
+        <h1 class="text-2xl text-center pb-2">环境检测</h1>
+        <table class="table">
+        <tr>
+            <td class="w-24">操作系统</td>
             <td>{{envInfo.osName}}</td>
         </tr>
-        <tr class="border-b align-top">
+        <tr>
+            <td>FastDo包</td>
+            <td>{{envInfo.fastdo.path}} ({{envInfo.fastdo.version}})</td>
+        </tr>
+        <tr>
             <td>编译器名</td>
             <td>{{envInfo.compiler.compiler}}</td>
         </tr>
-        <tr class="border-b align-top">
+        <tr>
             <td>安装路径</td>
             <td>{{envInfo.compiler.installPath}}</td>
         </tr>
-        <tr class="border-b align-top">
+        <tr v-if="envInfo.compiler.VSToolsBat64">
             <td>脚本路径</td>
-            <td class="break-words">{{envInfo.compiler.VSToolsBat64}}</td>
+            <td>{{envInfo.compiler.VSToolsBat64}}</td>
         </tr>
         </table>
     </div>
 </template>
 
 <style scoped>
+
+.table {
+    @apply border-collapse w-full table-fixed;
+}
+.table tr {
+    @apply border-b align-top;
+}
+.table tr td {
+    @apply break-words p-1;
+}
 
 </style>

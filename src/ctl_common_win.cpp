@@ -410,6 +410,11 @@ bool ScanCompilerInstallPath( String const & strRegexSoftwareName, String * comp
     return false;
 }
 
+String GetFastdoPackage()
+{
+    return NormalizePath( FilePath( GetExecutablePath() ) + DirSep + ".." );
+}
+
 bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInfo )
 {
     compilerInfo->createCollection();
