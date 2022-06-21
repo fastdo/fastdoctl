@@ -444,8 +444,10 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
     return false;
 }
 
-bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo )
+bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
 {
+    libsAllInfo->createCollection();
+    Mixed * libsInfo = &(*libsAllInfo)["libs"];
     libsInfo->createCollection();
     bool r = true;
     String exePath = FilePath( GetExecutablePath() );
@@ -461,6 +463,7 @@ bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo
             }
             else
             {
+                (*libsInfo)[lib] = Mixed();
                 r = false;
             }
         }
@@ -473,6 +476,7 @@ bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo
             }
             else
             {
+                (*libsInfo)[lib] = Mixed();
                 r = false;
             }
         }
@@ -485,6 +489,7 @@ bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo
             }
             else
             {
+                (*libsInfo)[lib] = Mixed();
                 r = false;
             }
         }
@@ -497,11 +502,12 @@ bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo
             }
             else
             {
+                (*libsInfo)[lib] = Mixed();
                 r = false;
             }
         }
     }
-
+    (*libsAllInfo)["check"] = r;
     return r;
 }
 

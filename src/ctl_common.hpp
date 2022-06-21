@@ -44,7 +44,7 @@ bool ScanCompilerInstallPath( String const & strRegexSoftwareName, String * comp
 bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInfo );
 
 // 检测第三方库是否安装
-bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo );
+bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo );
 
 // 检测环境变量
 bool CheckEnvVars( Mixed * envvarsInfo );

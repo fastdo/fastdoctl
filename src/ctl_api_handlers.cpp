@@ -37,8 +37,18 @@ bool API_get_compiler_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Respons
 
 bool API_get_libs_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
 {
+    StringArray targetLbs;
+    Mixed & libs = requestCtxPtr->get["libs"];
+    if ( libs.isArray() )
+    {
+        libs.getArray(&targetLbs);
+        cout << "LIBS: " << targetLbs << endl;
+    }
+
+    targetLbs.insert( targetLbs.begin(), { "fcgi", "mysql", "pthread", "sqlite3secure" } );
+
     Mixed result;
-    CheckThirdpartiesLibs( { "fcgi", "mysql", "pthread", "sqlite3secure" }, &result );
+    CheckThirdpartiesLibs( targetLbs, &result );
     RSP << result.myJson( false, "    ", "\n" );
     return false;
 }

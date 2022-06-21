@@ -60,9 +60,9 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
     return (*compilerInfo)["check"];
 }
 
-bool CheckThirdpartiesLibs( std::initializer_list<String> libs, Mixed * libsInfo )
+bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
 {
-    libsInfo->createCollection();
+    libsAllInfo->createCollection();
 
     // mysql, curl
 
