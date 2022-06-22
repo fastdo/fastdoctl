@@ -421,9 +421,10 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
 
     String compilerName, installPath;
 
-    (*compilerInfo)["check"] = ScanCompilerInstallPath( strRegexSoftwareName, &compilerName, &installPath );
+    bool r = ScanCompilerInstallPath( strRegexSoftwareName, &compilerName, &installPath );
+    (*compilerInfo)["check"] = r;
 
-    if ( (*compilerInfo)["check"] )
+    if ( r )
     {
         (*compilerInfo)["compiler"] = compilerName;
         (*compilerInfo)["installPath"] = installPath;
@@ -441,6 +442,7 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
 
         return true;
     }
+
     return false;
 }
 
@@ -515,7 +517,6 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
 // 用户环境变量 HKEY_CURRENT_USER\Environment
 bool CheckEnvVars( Mixed * envvarsInfo )
 {
-    envvarsInfo->createCollection();
     String strKey = R"(HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment)";
     SimpleHandle<HKEY> key( RegistryOpenKey( strKey.c_str(), TRUE ), 0, RegistryCloseKey );
     CHAR szName[256] = { 0 };
@@ -536,9 +537,12 @@ bool CheckEnvVars( Mixed * envvarsInfo )
         "X86R_BIN",
         "X86R_LIB"
     };
+    envvarsInfo->createCollection();
+    Mixed & envvars = (*envvarsInfo)["envvars"].createCollection();
+
     for ( String const & var : targetVars )
     {
-        (*envvarsInfo)["FASTDO_" + var] = Mixed();
+        envvars["FASTDO_" + var] = Mixed();
     }
     for ( DWORD i = 0; RegEnumValue( key.get(), i, szName, &dwNameLen, NULL, &dwType, (LPBYTE)szValue, &dwValueLen ) != ERROR_NO_MORE_ITEMS; ++i )
     {
@@ -546,7 +550,7 @@ bool CheckEnvVars( Mixed * envvarsInfo )
         String strName = szName;
         if ( regex_match( strName, mres, re ) )
         {
-            (*envvarsInfo)[strName] = szValue;
+            envvars[strName] = szValue;
         }
 
         dwNameLen = sizeof(szName);
@@ -556,12 +560,13 @@ bool CheckEnvVars( Mixed * envvarsInfo )
     bool r = true;
     for ( String const & var : targetVars )
     {
-        if ( (*envvarsInfo)["FASTDO_" + var].isNull() )
+        if ( envvars["FASTDO_" + var].isNull() )
         {
             r = false;
             break;
         }
     }
+    (*envvarsInfo)["check"] = r;
     return r;
 }
 
