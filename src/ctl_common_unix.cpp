@@ -64,7 +64,25 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
 {
     libsAllInfo->createCollection();
 
-    // mysql, curl
+    // 检查ld.so.conf.d目录下是否有fastdo.conf文件，并且内容是GetFastdoPackage()+"/lib"
+    bool libSoConfigOk = false;
+    String libSoConfigFile = "/etc/ld.so.conf.d/fastdo.conf";
+    String content;
+    if ( DetectPath(libSoConfigFile) )
+    {
+        int i = 0;
+        StrGetLine( &content, FileGetContents(libSoConfigFile), &i );
+
+        if ( content.find( GetFastdoPackage() + "/lib" ) != String::npos )
+        {
+            libSoConfigOk = true;
+        }
+    }
+    
+    Mixed & libConfig = (*libsAllInfo)["lib_config"].createCollection();
+    libConfig["file"] = libSoConfigFile;
+    libConfig["content"] = content;
+    libConfig["ok"] = libSoConfigOk;
 
     return false;
 }
