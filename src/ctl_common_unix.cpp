@@ -84,7 +84,7 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
     libConfig["content"] = content;
     libConfig["ok"] = libSoConfigOk;
 
-    return false;
+    return libSoConfigOk && false;
 }
 
 bool CheckEnvVars( Mixed * envvarsInfo )
