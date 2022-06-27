@@ -78,13 +78,77 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
             libSoConfigOk = true;
         }
     }
-    
     Mixed & libConfig = (*libsAllInfo)["lib_config"].createCollection();
     libConfig["file"] = libSoConfigFile;
     libConfig["content"] = content;
     libConfig["ok"] = libSoConfigOk;
 
-    return libSoConfigOk && false;
+    // 检测第三方库
+    Mixed * libsInfo = &(*libsAllInfo)["libs"];
+    libsInfo->createCollection();
+    bool r = true;
+    String exePath = FilePath( GetExecutablePath() );
+    String rootPath = PathWithSep( NormalizePath( CombinePath( exePath, ".." ) ) );
+    String libRootPath = CombinePath( rootPath, "lib" );
+
+    for ( String const & lib : libs )
+    {
+        if ( lib == "fcgi" )
+        {
+            String libPath = CombinePath( libRootPath, "libfcgi.so" );
+            if ( DetectPath(libPath) )
+            {
+                (*libsInfo)[lib] = StrSubtractA( libPath, rootPath );
+            }
+            else
+            {
+                (*libsInfo)[lib] = Mixed();
+                r = false;
+            }
+        }
+        else if ( lib == "mysql" )
+        {
+            String libPath = CombinePath( libRootPath, "libmysqlclient.so.18" );
+            if ( DetectPath(libPath) )
+            {
+                (*libsInfo)[lib] = StrSubtractA( libPath, rootPath );
+            }
+            else
+            {
+                (*libsInfo)[lib] = Mixed();
+                r = false;
+            }
+        }
+        else if ( lib == "pthread" )
+        {
+            String libPath = CombinePath( "/usr/lib64", "libpthread.so" );
+            if ( DetectPath(libPath) )
+            {
+                (*libsInfo)[lib] = StrSubtractA( libPath, rootPath );
+            }
+            else
+            {
+                (*libsInfo)[lib] = Mixed();
+                r = false;
+            }
+        }
+        else
+        {
+            String libPath = CombinePath( libRootPath, "lib" + lib + ".so" );
+            if ( DetectPath(libPath) )
+            {
+                (*libsInfo)[lib] = StrSubtractA( libPath, rootPath );
+            }
+            else
+            {
+                (*libsInfo)[lib] = Mixed();
+                r = false;
+            }
+        }
+    }
+    (*libsAllInfo)["check"] = r;
+
+    return libSoConfigOk && r;
 }
 
 bool CheckEnvVars( Mixed * envvarsInfo )
