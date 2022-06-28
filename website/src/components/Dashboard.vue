@@ -46,7 +46,7 @@ axios.get( serverRootUrl + '/api/get_os_info' ).then( ( value ) => {
         </ul>
     </nav>
 
-    <div class="container text-amber-400 stroke-indigo-400 fill-indigo-400 w-60 h-60 border-8 border-indigo-400 mx-auto my-4 p-8 rounded-full shadow-md">
+    <div class="container text-amber-400 stroke-indigo-400 fill-indigo-400 w-48 h-48 border-8 border-indigo-400 mx-auto my-4 p-8 rounded-full shadow-md">
         <svg class="w-full h-full" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
         <!-- <rect x="0" y="0" rx="15%" ry="15%" width="480" height="480" /> -->
         <path d="M 65 68 q 650 -50 10 350" stroke-width="60" fill="none" />
