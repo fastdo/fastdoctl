@@ -42,7 +42,7 @@ String GetFastdoPackage()
 bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInfo )
 {
     compilerInfo->createCollection();
-    int i = 0;
+    size_t i = 0;
     String gppVersion;
     StrGetLine( &gppVersion, GetExec("g++ --version"), &i );
     //cout << gccVersion << endl;
@@ -70,7 +70,7 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
     String content;
     if ( DetectPath(libSoConfigFile) )
     {
-        int i = 0;
+        size_t i = 0;
         StrGetLine( &content, FileGetContents(libSoConfigFile), &i );
 
         if ( content.find( GetFastdoPackage() + "/lib" ) != String::npos )

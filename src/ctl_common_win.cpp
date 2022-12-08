@@ -398,8 +398,8 @@ bool ScanCompilerInstallPath( String const & strRegexSoftwareName, String * comp
     Mixed installedColl;
     if ( ScanSoftwareInstalledInfo( strRegexSoftwareName, &installedColl ) )
     {
-        int n = installedColl.getCount();
-        for ( int i = 0; i < n; ++i )
+        size_t n = installedColl.getCount();
+        for ( size_t i = 0; i < n; ++i )
         {
             auto & pr = installedColl.getPair(i);
             *compilerName = pr.first;
@@ -577,8 +577,8 @@ bool ModifyEcpConfig( Mixed const & configs )
     String configContent = FileGetContents(ecpConfigPath);
     size_t offset = 0;
 
-    int n = configs.getCount();
-    for ( int i = 0; i < n; ++i )
+    size_t n = configs.getCount();
+    for ( size_t i = 0; i < n; ++i )
     {
         auto const & pr = configs.getPair(i);
         size_t pos = configContent.find( "\n" + *pr.first._pStr, offset );
