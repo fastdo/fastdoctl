@@ -8,12 +8,12 @@ int main()
 {
     // 初始化一些库和设置
     #if defined(__GNUC__) && !defined(WIN32) // on linux
-    winux::SetLocale::Set("zh_CN.UTF-8");
+    winux::Locale::Set("zh_CN.UTF-8");
     #else
 
     #endif
 
-    winux::SetLocale __loc__;
+    winux::Locale __loc__;
     //eiengd::GdInit __gdInit__;
     eiennet::SocketLib __sockInit__;
 
