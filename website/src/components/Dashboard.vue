@@ -17,16 +17,16 @@ const envInfo = reactive( {
     },
 } )
 
-const serverRootUrl = 'http://192.168.138.143:16060'
-axios.get( serverRootUrl + '/api/get_compiler_info' ).then( ( value ) => {
+const serverRootUrl = ref('http://192.168.138.143:16060')
+axios.get( serverRootUrl.value + '/api/get_compiler_info' ).then( ( value ) => {
     envInfo.compiler = value.data
     console.log( value.data)
 } )
-axios.get( serverRootUrl + '/api/get_fastdo_info' ).then( ( value ) => {
+axios.get( serverRootUrl.value + '/api/get_fastdo_info' ).then( ( value ) => {
     envInfo.fastdo = value.data
     console.log( value.data)
 } )
-axios.get( serverRootUrl + '/api/get_os_info' ).then( ( value ) => {
+axios.get( serverRootUrl.value + '/api/get_os_info' ).then( ( value ) => {
     envInfo.osName = value.data.os
     console.log( value.data)
 } )
