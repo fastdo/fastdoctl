@@ -1,7 +1,8 @@
-﻿
-#include "ctl_common.hpp"
+﻿#include "ctl_common.hpp"
 #include "ctl_ControlCenterApp.hpp"
 #include "ctl_web_handlers.hpp"
+
+#include "fastdo.ver"
 
 // 时区
 static winux::String __strTimezone;
@@ -33,9 +34,7 @@ ControlCenterApp::ControlCenterApp()
 
     _httpExternalData.serverPath = winux::CombinePath( _privateData.exeDirPath, _privateData.exeFile ); // httpserv路径
     _httpExternalData.pid = getpid(); // 进程ID
-    _httpExternalData.fastdoVer =
-        #include "fastdo.ver"
-    ; // 版本号
+    _httpExternalData.fastdoVer = FASTDO_VERSION_STRING; // 版本号
 
 
     // 设置时区环境变量

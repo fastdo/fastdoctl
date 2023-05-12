@@ -1,7 +1,8 @@
-﻿
-#include "ctl_common.hpp"
+﻿#include "ctl_common.hpp"
 #include "ctl_ControlCenterApp.hpp"
 #include "ctl_api_handlers.hpp"
+
+#include "fastdo.ver"
 
 #if defined(OS_WIN)
 #include <comdef.h>
@@ -22,7 +23,7 @@ bool API_get_fastdo_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response 
     Mixed result;
     result.createCollection();
     result["path"] = GetFastdoPackage();
-    result["version"] = Json( FileGetContents( result["path"].toAnsi() + "/bin/fastdo.ver" ) );
+    result["version"] = FASTDO_VERSION_STRING;
     RSP << result.myJson( false, "    ", "\n" );
     return false;
 }
