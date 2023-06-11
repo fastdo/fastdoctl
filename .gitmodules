@@ -1,0 +1,4 @@
+[submodule "thirdparties/winplus"]
+	path = thirdparties/winplus
+	url = git@github.com:waiting/winplus.git
+	ignore = dirty
