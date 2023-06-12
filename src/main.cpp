@@ -20,9 +20,12 @@ void StartupServer()
 
 int StartupMain( CommandLineVars const & cmdVars )
 {
-    Mixed info;
-    CheckEnvVars(&info);
+    Mixed info, info2;
+    ScanSoftwareInstalledInfo( ".*Visual Studio.*", &info );
+    ScanSoftwareInstalledInfoV2( ".*Visual Studio.*", &info2 );
+
     cout << info.myJson(true,"  ","\n");
+    cout << info2.myJson(true,"  ","\n");
     return 0;
 }
 

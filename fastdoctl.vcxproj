@@ -30,6 +30,18 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ctl_common_win.cpp" />
     <ClCompile Include="src\ctl_web_handlers.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_compoundfile.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_console.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_definitions.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_graphics.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_ini.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_picture.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_resource.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_shell.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_strings.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_system.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_winctrl.cpp" />
+    <ClCompile Include="thirdparties\winplus\src\winplus_wordslib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fastdoctl.settings" />
@@ -39,6 +51,19 @@
     <ClInclude Include="src\ctl_common.hpp" />
     <ClInclude Include="src\ctl_ControlCenterApp.hpp" />
     <ClInclude Include="src\ctl_web_handlers.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_compoundfile.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_console.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_definitions.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_graphics.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_ini.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_picture.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_resource.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_shell.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_strings.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_system.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_winctrl.hpp" />
+    <ClInclude Include="thirdparties\winplus\include\winplus_wordslib.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -119,7 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINUX_DLL_USE;EIENML_DLL_USE;EIENEXPR_DLL_USE;EIENTPL_DLL_USE;EIENNET_DLL_USE;EIENWEBX_DLL_USE;EIENGD_DLL_USE;_CONSOLE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;thirdparties\winplus\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,7 +174,7 @@ xcopy /D /Y README.md $(SolutionDir)build\windows\$(PlatformShortName)-$(Configu
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINUX_DLL_USE;EIENML_DLL_USE;EIENEXPR_DLL_USE;EIENTPL_DLL_USE;EIENNET_DLL_USE;EIENWEBX_DLL_USE;EIENGD_DLL_USE;_CONSOLE;WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;thirdparties\winplus\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -181,7 +206,7 @@ xcopy /D /Y README.md $(SolutionDir)build\windows\$(PlatformShortName)-$(Configu
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINUX_DLL_USE;EIENML_DLL_USE;EIENEXPR_DLL_USE;EIENTPL_DLL_USE;EIENNET_DLL_USE;EIENWEBX_DLL_USE;EIENGD_DLL_USE;_CONSOLE;WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;thirdparties\winplus\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -215,7 +240,7 @@ xcopy /D /Y README.md $(SolutionDir)build\windows\$(PlatformShortName)-$(Configu
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WINUX_DLL_USE;EIENML_DLL_USE;EIENEXPR_DLL_USE;EIENTPL_DLL_USE;EIENNET_DLL_USE;EIENWEBX_DLL_USE;EIENGD_DLL_USE;_CONSOLE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\components\winux\include;..\..\components\eienml\include;..\..\components\eienexpr\include;..\..\components\eientpl\include;..\..\components\httpwrapper\include;..\..\components\eiennet\include;..\..\components\eienwebx\include;..\..\components\eiengd\include;..\..\components\appserv;thirdparties\winplus\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\winplus">
+      <UniqueIdentifier>{ecaa58e0-0a45-4892-9692-6522dc1e88e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\winplus">
+      <UniqueIdentifier>{d765b184-c561-43f0-b84a-4910d7c84fd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -33,6 +39,42 @@
     <ClCompile Include="src\ctl_common_unix.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_compoundfile.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_console.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_definitions.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_graphics.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_ini.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_picture.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_resource.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_shell.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_strings.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_system.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_winctrl.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
+    <ClCompile Include="thirdparties\winplus\src\winplus_wordslib.cpp">
+      <Filter>源文件\winplus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="fastdoctl.settings" />
@@ -49,6 +91,45 @@
     </ClInclude>
     <ClInclude Include="src\ctl_web_handlers.hpp">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_compoundfile.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_console.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_definitions.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_graphics.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_ini.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_picture.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_resource.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_shell.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_strings.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_system.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_winctrl.hpp">
+      <Filter>头文件\winplus</Filter>
+    </ClInclude>
+    <ClInclude Include="thirdparties\winplus\include\winplus_wordslib.hpp">
+      <Filter>头文件\winplus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
