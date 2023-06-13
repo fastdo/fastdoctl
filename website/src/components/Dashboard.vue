@@ -1,38 +1,3 @@
-<script setup lang="ts">
-import { ref, reactive } from 'vue'
-import axios from 'axios'
-
-const count = ref(0)
-
-const envInfo = reactive( {
-    osName: '',
-    fastdo: {
-        path: '',
-        version: '',
-    },
-    compiler: {
-        compiler: '',
-        installPath: '',
-        VSToolsBat64: ''
-    },
-} )
-
-const serverRootUrl = ref('http://192.168.138.143:16060')
-axios.get( serverRootUrl.value + '/api/get_compiler_info' ).then( ( value ) => {
-    envInfo.compiler = value.data
-    console.log( value.data)
-} )
-axios.get( serverRootUrl.value + '/api/get_fastdo_info' ).then( ( value ) => {
-    envInfo.fastdo = value.data
-    console.log( value.data)
-} )
-axios.get( serverRootUrl.value + '/api/get_os_info' ).then( ( value ) => {
-    envInfo.osName = value.data.os
-    console.log( value.data)
-} )
-
-</script>
-
 <template>
     <nav class="bg-indigo-500 p-2 text-white">
         <ul class="flex flex-row gap-6 overflow-x-auto">
@@ -80,6 +45,41 @@ axios.get( serverRootUrl.value + '/api/get_os_info' ).then( ( value ) => {
         </table>
     </div>
 </template>
+
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
+import axios from 'axios'
+
+const count = ref(0);
+
+const envInfo = reactive( {
+    osName: '',
+    fastdo: {
+        path: '',
+        version: '',
+    },
+    compiler: {
+        compiler: '',
+        installPath: '',
+        VSToolsBat64: ''
+    },
+} )
+
+
+axios.get('/api/get_compiler_info').then( ( value ) => {
+    envInfo.compiler = value.data
+    console.log(value.data)
+} )
+axios.get('/api/get_fastdo_info').then( ( value ) => {
+    envInfo.fastdo = value.data
+    console.log(value.data)
+} )
+axios.get('/api/get_os_info').then( ( value ) => {
+    envInfo.osName = value.data.os
+    console.log(value.data)
+} )
+
+</script>
 
 <style scoped>
 

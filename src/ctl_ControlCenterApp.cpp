@@ -13,11 +13,17 @@ ControlCenterApp::ControlCenterApp()
     _privateData.exeDirPath = winux::FilePath( winux::GetExecutablePath(), &_privateData.exeFile );
     _privateData.exeTitle = winux::FileTitle(_privateData.exeFile);
 
-    // 载入配置文件 webx_httpserv.settings
+    // 载入配置文件 fastdoctl.settings
     winux::ConfigureSettings settings;
     settings.set( "$ExeDirPath", _privateData.exeDirPath );
     settings.set( "$WorkDirPath", winux::RealPath("") );
-    settings.load( winux::CombinePath( settings.get("$WorkDirPath"), _privateData.exeTitle + ".settings" ) );
+    winux::String settingsPath = winux::CombinePath( settings.get("$WorkDirPath"), _privateData.exeTitle + ".settings" );
+    // 当前目录下的*.settings文件不存在，就去加载exe目录下的文件
+    if ( !DetectPath(settingsPath) )
+    {
+        settingsPath = winux::CombinePath( settings.get("$ExeDirPath"), _privateData.exeTitle + ".settings" );
+    }
+    settings.load(settingsPath);
     // 输出配置信息
     winux::ColorOutputLine( winux::fgYellow, settings.val().myJson( true, "    ", "\n" ) );
 

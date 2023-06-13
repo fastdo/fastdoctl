@@ -89,70 +89,6 @@ bool ScanSoftwareInstalledInfo( String const & strRegexSoftwareName, Mixed * ins
         R"(HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall)",
         R"(HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall)"
     };
-    installedColl->createCollection();
-    bool r = false;
-    for ( String & strKey : keyPaths )
-    {
-        SimpleHandle<HKEY> key( RegistryOpenKey( strKey.c_str(), TRUE ), 0, RegistryCloseKey );
-
-        CHAR szSubKey[256] = { 0 };
-        for ( DWORD i = 0; RegEnumKey( key.get(), i, szSubKey, sizeof(szSubKey) ) != ERROR_NO_MORE_ITEMS; ++i )
-        {
-            CHAR szOneValue[256] = { 0 };
-            DWORD cb;
-            DWORD dwType;
-
-            String strSubKey = strKey + "\\" + szSubKey;
-            SimpleHandle<HKEY> subKey( RegistryOpenKey( strSubKey.c_str(), TRUE ), 0, RegistryCloseKey );
-
-            dwType = REG_SZ;
-            cb = sizeof(szOneValue);
-            memset( szOneValue, 0, cb );
-            RegQueryValueExA(subKey.get(), "DisplayName", NULL, &dwType, (LPBYTE)szOneValue, &cb);
-            AnsiString strDisplayName = szOneValue;
-
-            if ( strDisplayName.length() > 0 )
-            {
-                std::regex re{ strRegexSoftwareName, regex::ECMAScript };
-
-                if ( regex_match( strDisplayName, re ) )
-                {
-                    dwType = REG_SZ;
-                    cb = sizeof(szOneValue);
-                    memset( szOneValue, 0, cb );
-                    RegQueryValueExA( subKey.get(), "InstallLocation", NULL, &dwType, (LPBYTE)szOneValue, &cb);
-                    Mixed & mxInstallPath = (*installedColl)[strDisplayName];
-
-                    mxInstallPath = szOneValue;
-                    if ( mxInstallPath._pStr->empty() )
-                    {
-                        dwType = REG_SZ;
-                        cb = sizeof(szOneValue);
-                        memset( szOneValue, 0, cb );
-                        RegQueryValueExA( subKey.get(), "DisplayIcon", NULL, &dwType, (LPBYTE)szOneValue, &cb);
-
-                        mxInstallPath = FilePath(szOneValue);
-                        if ( mxInstallPath._pStr->empty() )
-                        {
-                            installedColl->del(strDisplayName);
-                        }
-                    }
-                    r = true;
-                }
-            }
-        }
-    }
-
-    return r;
-}
-
-bool ScanSoftwareInstalledInfoV2( String const & strRegexSoftwareName, Mixed * installedColl )
-{
-    StringArray keyPaths = {
-        R"(HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall)",
-        R"(HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall)",
-        R"(HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall)"
-    };
 
     installedColl->createCollection();
 
@@ -164,9 +100,7 @@ bool ScanSoftwareInstalledInfoV2( String const & strRegexSoftwareName, Mixed * i
         while ( key.enumKeys(&strSubKey) )
         {
             Registry subKey( key.key(), strSubKey );
-
             AnsiString strDisplayName = subKey.getValue("DisplayName");
-
             if ( strDisplayName.length() > 0 )
             {
                 std::regex re{ strRegexSoftwareName, regex::ECMAScript };
@@ -316,12 +250,7 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
 bool CheckEnvVars( Mixed * envvarsInfo )
 {
     String strKey = R"(HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment)";
-    SimpleHandle<HKEY> key( RegistryOpenKey( strKey.c_str(), TRUE ), 0, RegistryCloseKey );
-    CHAR szName[256] = { 0 };
-    CHAR szValue[1024] = { 0 };
-    DWORD dwNameLen = sizeof(szName);
-    DWORD dwValueLen = sizeof(szValue);
-    DWORD dwType = REG_NONE;
+    Registry key(strKey);
     regex re( "FASTDO_(.+)", regex::ECMAScript );
     StringArray targetVars = {
         "BASE",
@@ -342,18 +271,15 @@ bool CheckEnvVars( Mixed * envvarsInfo )
     {
         envvars["FASTDO_" + var] = Mixed();
     }
-    for ( DWORD i = 0; RegEnumValue( key.get(), i, szName, &dwNameLen, NULL, &dwType, (LPBYTE)szValue, &dwValueLen ) != ERROR_NO_MORE_ITEMS; ++i )
+    String strName;
+    Mixed value;
+    while ( key.enumValues( &strName, &value ) )
     {
         match_results<String::const_iterator> mres;
-        String strName = szName;
         if ( regex_match( strName, mres, re ) )
         {
-            envvars[strName] = szValue;
+            envvars[strName] = Registry::Value(value);
         }
-
-        dwNameLen = sizeof(szName);
-        dwValueLen = sizeof(szValue);
-        dwType = REG_NONE;
     }
     bool r = true;
     for ( String const & var : targetVars )

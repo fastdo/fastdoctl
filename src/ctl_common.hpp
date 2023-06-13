@@ -35,7 +35,6 @@ String GetFastdoPackage();
 
 // 扫描软件安装信息，获取安装路径
 bool ScanSoftwareInstalledInfo( String const & strRegexSoftwareName, Mixed * installedColl );
-bool ScanSoftwareInstalledInfoV2( String const & strRegexSoftwareName, Mixed * installedColl );
 
 // 扫描编译器安装路径
 bool ScanCompilerInstallPath( String const & strRegexSoftwareName, String * compilerName, String * installPath );
