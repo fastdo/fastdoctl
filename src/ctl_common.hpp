@@ -33,7 +33,8 @@ String GetOsVersion();
 // 获取fastdo软件包路径
 String GetFastdoPackage();
 
-// 扫描软件安装信息，获取安装路径
+// 扫描系统内的软件安装信息，获取安装路径
+// { software_name1: install_path1, software_name2: install_path2, ... }
 bool ScanSoftwareInstalledInfo( String const & strRegexSoftwareName, Mixed * installedColl );
 
 // 扫描编译器安装路径
@@ -46,7 +47,7 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
 bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo );
 
 // 检测环境变量
-bool CheckEnvVars( Mixed * envvarsInfo );
+bool CheckEnvVars( Mixed * info );
 
 // 修改ecp.conf文件中编译器启动脚本路径的配置VSToolsBat
 bool ModifyEcpConfig( Mixed const & configs );

@@ -151,9 +151,9 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
     return libSoConfigOk && r;
 }
 
-bool CheckEnvVars( Mixed * envvarsInfo )
+bool CheckEnvVars( Mixed * info )
 {
-    envvarsInfo->createCollection();
+    info->createCollection();
 
     return false;
 }

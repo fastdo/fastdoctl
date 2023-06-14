@@ -247,7 +247,8 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
 
 // 系统环境变量 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
 // 用户环境变量 HKEY_CURRENT_USER\Environment
-bool CheckEnvVars( Mixed * envvarsInfo )
+// 存在FASTDO_BASE, FASTDO_INCLUDE, 和任意一对FASTDO_X***_BIN, FASTDO_X***_LIB就算检测OK
+bool CheckEnvVars( Mixed * info )
 {
     String strKey = R"(HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment)";
     Registry key(strKey);
@@ -264,13 +265,15 @@ bool CheckEnvVars( Mixed * envvarsInfo )
         "X86R_BIN",
         "X86R_LIB"
     };
-    envvarsInfo->createCollection();
-    Mixed & envvars = (*envvarsInfo)["envvars"].createCollection();
-
+    info->createCollection();
+    Mixed & envvars = (*info)["envvars"].createCollection();
+    // 初始设为Mixed(MT_NULL)
     for ( String const & var : targetVars )
     {
         envvars["FASTDO_" + var] = Mixed();
     }
+
+    // 枚举目标环境变量
     String strName;
     Mixed value;
     while ( key.enumValues( &strName, &value ) )
@@ -281,17 +284,24 @@ bool CheckEnvVars( Mixed * envvarsInfo )
             envvars[strName] = Registry::Value(value);
         }
     }
-    bool r = true;
-    for ( String const & var : targetVars )
+
+    // 检测是否OK
+    bool baseOk = false;
+    bool includeOk = false;
+    bool archOk = false;
+
+    baseOk = envvars["FASTDO_BASE"].isString();
+    includeOk = envvars["FASTDO_INCLUDE"].isString();
+
+    Mixed & archInfo = (*info)["arch"].createCollection();
+    StringArray archs = { "X64D", "X64R", "X86D", "X86R" };
+    for ( auto & arch: archs )
     {
-        if ( envvars["FASTDO_" + var].isNull() )
-        {
-            r = false;
-            break;
-        }
+        archInfo[arch] = envvars["FASTDO_" + String(arch) + "_BIN"].isString() && envvars["FASTDO_" + String(arch) + "_LIB"].isString();
+        if ( !archOk ) archOk = archInfo[arch];
     }
-    (*envvarsInfo)["check"] = r;
-    return r;
+
+    return (*info)["check"] = baseOk && includeOk && archOk;
 }
 
 bool ModifyEcpConfig( Mixed const & configs )
@@ -316,7 +326,7 @@ bool ModifyEcpConfig( Mixed const & configs )
             }
             size_t endPos = pos;
             String newConfigContent;
-            newConfigContent = configContent.substr(0, startPos);
+            newConfigContent = configContent.substr( 0, startPos );
             newConfigContent += *pr.first._pStr + "=" + *pr.second._pStr;
             newConfigContent += configContent.substr(endPos);
             configContent = newConfigContent;
