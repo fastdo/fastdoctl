@@ -30,8 +30,11 @@ using namespace eiengd;
 // 获取操作系统版本串
 String GetOsVersion();
 
-// 获取fastdo软件包路径
-String GetFastdoPackage();
+// 获取当前支持fastdoctl运行的fastdo软件包路径
+String GetCurrentFastdoPackage();
+
+// 检测fastdo软件包
+bool CheckFastdoPackage( Mixed * packInfo );
 
 // 扫描系统内的软件安装信息，获取安装路径
 // { software_name1: install_path1, software_name2: install_path2, ... }

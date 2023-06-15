@@ -26,57 +26,6 @@ SimpleHandle<char *> GetErrorStr( uint32 err )
     return SimpleHandle<char *>( buf, NULL, LocalFree );
 }
 
-// 打开键句柄
-HKEY RegistryOpenKey( LPCSTR keyName, BOOL wantWrite )
-{
-    HKEY baseKeyHandle = NULL, keyHandle = NULL;
-    LPCSTR str = strchr( keyName, '\\' );
-    if ( !str ) str = keyName + strlen(keyName); //只是根键的情况.
-    if ( !_strnicmp( keyName, "HKEY_CLASSES_ROOT", str - keyName ) || !_strnicmp( keyName, "HKCR", str - keyName ) )
-        baseKeyHandle = HKEY_CLASSES_ROOT;
-    else if ( !_strnicmp( keyName, "HKEY_CURRENT_CONFIG", str - keyName ) || !_strnicmp( keyName, "HKCC", str - keyName ) )
-        baseKeyHandle = HKEY_CURRENT_CONFIG;
-    else if ( !_strnicmp( keyName, "HKEY_CURRENT_USER", str - keyName ) || !_strnicmp( keyName, "HKCU", str - keyName ) )
-        baseKeyHandle = HKEY_CURRENT_USER;
-    else if ( !_strnicmp( keyName, "HKEY_LOCAL_MACHINE", str - keyName ) || !_strnicmp( keyName, "HKLM", str - keyName ) )
-        baseKeyHandle = HKEY_LOCAL_MACHINE;
-    else if ( !_strnicmp( keyName, "HKEY_USERS", str - keyName ) || !_strnicmp( keyName, "HKU", str - keyName ) )
-        baseKeyHandle = HKEY_USERS;
-    else
-    {
-        return NULL;
-    }
-    if ( !*str )
-    {
-        return baseKeyHandle;
-    }
-    str++;	//跳过'\\'
-    if ( baseKeyHandle )
-    {
-        if ( wantWrite )  //以写方式,若以存在,则打开,不存在则创建.
-            RegCreateKey( baseKeyHandle, str, &keyHandle );
-        else
-            RegOpenKey( baseKeyHandle, str, &keyHandle );
-    }
-    return keyHandle;
-}
-
-// 关闭键句柄
-int RegistryCloseKey( HKEY keyHandle )
-{
-    if (
-        keyHandle == HKEY_CLASSES_ROOT ||
-        keyHandle == HKEY_CURRENT_USER ||
-        keyHandle == HKEY_LOCAL_MACHINE ||
-        keyHandle == HKEY_USERS ||
-        keyHandle == HKEY_CURRENT_CONFIG
-    )
-    {
-        return 0;
-    }
-    return RegCloseKey(keyHandle);
-}
-
 String GetOsVersion()
 {
     return winplus::GetOsVersion();
@@ -142,9 +91,46 @@ bool ScanCompilerInstallPath( String const & strRegexSoftwareName, String * comp
     return false;
 }
 
-String GetFastdoPackage()
+String GetCurrentFastdoPackage()
 {
     return NormalizePath( FilePath( GetExecutablePath() ) + DirSep + ".." );
+}
+
+/*
+    base:
+    include:
+    arch:
+        X64D:
+        X64R:
+        X86D:
+        X86R:
+ */
+bool CheckFastdoPackage( Mixed * packInfo )
+{
+    packInfo->createCollection();
+    String packPath = GetCurrentFastdoPackage();
+    String basePath = FilePath(packPath);
+    String includePath = CombinePath( basePath, "include" );
+
+    (*packInfo)["base"] = Mixed();
+    if ( DetectPath(basePath) ) (*packInfo)["base"] = basePath;
+    (*packInfo)["include"] = Mixed();
+    if ( DetectPath(includePath) ) (*packInfo)["include"] = includePath;
+
+    Mixed & arch = (*packInfo)["arch"].createCollection();
+
+    StringArray archDirs = { "x64-Debug", "x64-Release", "x86-Debug", "x86-Release" };
+    for ( auto & archDir : archDirs )
+    {
+        String strArch = CollateIdentifierToString( archDir, "", wordAllUpper ).substr( 0, 4 );
+        arch[strArch] = Mixed();
+        if ( DetectPath( CombinePath( basePath, archDir ) ) )
+        {
+            arch[strArch] = CombinePath( basePath, archDir );
+        }
+    }
+
+    return false;
 }
 
 bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInfo )

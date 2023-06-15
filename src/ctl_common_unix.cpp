@@ -34,7 +34,7 @@ String GetOsVersion()
     return Json(prettyName);
 }
 
-String GetFastdoPackage()
+String GetCurrentFastdoPackage()
 {
     return NormalizePath( FilePath( GetExecutablePath() ) + DirSep + ".." );
 }
@@ -73,7 +73,7 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
         size_t i = 0;
         StrGetLine( &content, FileGetContents(libSoConfigFile), &i );
 
-        if ( content.find( GetFastdoPackage() + "/lib" ) != String::npos )
+        if ( content.find( GetCurrentFastdoPackage() + "/lib" ) != String::npos )
         {
             libSoConfigOk = true;
         }

@@ -22,7 +22,7 @@ bool API_get_fastdo_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response 
 {
     Mixed result;
     result.createCollection();
-    result["path"] = GetFastdoPackage();
+    result["path"] = GetCurrentFastdoPackage();
     result["version"] = FASTDO_VERSION_STRING;
     RSP << result.myJson( false, "    ", "\n" );
     return false;
