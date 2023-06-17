@@ -139,11 +139,13 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
         (*compilerInfo)["installPath"] = installPath;
 
         String vsToolsBat64 = CombinePath( installPath, "VC\\Auxiliary\\Build\\vcvars64.bat" );
+        (*compilerInfo)["VSToolsBat64"] = Mixed();
         if ( DetectPath(vsToolsBat64) )
         {
             (*compilerInfo)["VSToolsBat64"] = vsToolsBat64;
         }
         String vsToolsBat32 = CombinePath( installPath, "VC\\Auxiliary\\Build\\vcvars32.bat" );
+        (*compilerInfo)["VSToolsBat32"] = Mixed();
         if ( DetectPath(vsToolsBat32) )
         {
             (*compilerInfo)["VSToolsBat32"] = vsToolsBat32;
