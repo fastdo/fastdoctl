@@ -1,5 +1,5 @@
 <template>
-    <nav class="bg-indigo-500 p-2 text-white">
+    <!-- <nav class="bg-indigo-500 p-2 text-white">
         <ul class="flex flex-row gap-6 overflow-x-auto">
             <li class="self-center">
                 <svg class="w-12 h-12 stroke-white fill-transparent" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
@@ -9,6 +9,9 @@
             </li>
             <li class="self-center text-2xl whitespace-nowrap">FastDo Control Center</li>
         </ul>
+    </nav> -->
+    <nav class="navbar bg-primary text-primary-content">
+        <button class="btn btn-ghost normal-case text-xl">FastDo Control Center</button>
     </nav>
 
     <div class="container text-amber-400 stroke-indigo-400 fill-indigo-400 w-48 h-48 border-8 border-indigo-400 mx-auto my-4 p-8 rounded-full shadow-md">
@@ -23,27 +26,28 @@
         <h1 class="text-2xl text-center pb-2">环境检测</h1>
         <table class="table">
         <tr>
-            <td class="w-24">操作系统</td>
+            <th class="w-24">操作系统</th>
             <td>{{envInfo.osName}}</td>
         </tr>
         <tr>
-            <td>FastDo包</td>
+            <th>FastDo包</th>
             <td>{{envInfo.fastdo.path}} ({{envInfo.fastdo.version}})</td>
         </tr>
         <tr>
-            <td>编译器名</td>
+            <th>编译器名</th>
             <td>{{envInfo.compiler.compiler}}</td>
         </tr>
         <tr>
-            <td>安装路径</td>
+            <th>安装路径</th>
             <td>{{envInfo.compiler.installPath}}</td>
         </tr>
         <tr v-if="envInfo.compiler.VSToolsBat64">
-            <td>脚本路径</td>
+            <th>脚本路径</th>
             <td>{{envInfo.compiler.VSToolsBat64}}</td>
         </tr>
         </table>
     </div>
+    <button class="btn btn-primary rounded-full m-2">Install</button>
 </template>
 
 <script setup lang="ts">

@@ -34,6 +34,13 @@ String GetOsVersion();
 String GetCurrentFastdoPackage();
 
 // 检测fastdo软件包
+// base:
+// include:
+// arch:
+//     X64D:
+//     X64R:
+//     X86D:
+//     X86R:
 bool CheckFastdoPackage( Mixed * packInfo );
 
 // 扫描系统内的软件安装信息，获取安装路径

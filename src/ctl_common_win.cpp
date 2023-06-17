@@ -96,15 +96,6 @@ String GetCurrentFastdoPackage()
     return NormalizePath( FilePath( GetExecutablePath() ) + DirSep + ".." );
 }
 
-/*
-    base:
-    include:
-    arch:
-        X64D:
-        X64R:
-        X86D:
-        X86R:
- */
 bool CheckFastdoPackage( Mixed * packInfo )
 {
     packInfo->createCollection();
