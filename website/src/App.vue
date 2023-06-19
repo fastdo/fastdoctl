@@ -1,7 +1,7 @@
 <template>
     <!-- <img alt="Vue logo" src="./assets/favicon128x128.png" /> -->
     <!-- <HelloWorld msg="FastDo Control Center" /> -->
-    <Dashboard />
+    <router-view></router-view>
 </template>
 
 <script setup lang="ts">
