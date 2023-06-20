@@ -48,67 +48,150 @@
             <table class="table">
             <tr>
                 <th class="w-24">操作系统</th>
-                <td>{{envInfo.osName}}</td>
+                <td>{{envInfo.osname}}</td>
             </tr>
             <tr>
                 <th>控制依赖</th>
                 <td>{{envInfo.fastdo.path}} <div class="badge badge-accent badge-outline">{{envInfo.fastdo.version}}</div></td>
             </tr>
             <tr>
+                <th>包含架构</th>
+                <td class="overflow-auto">
+                    <div class="form-control flex-row">
+                        <label class="label cursor-pointer justify-normal mr-2">
+                            <span class="label-text">X64D</span>
+                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.package.arch.X64D != null" />
+                        </label>
+                        <label class="label cursor-pointer justify-normal mr-2">
+                            <span class="label-text">X64R</span>
+                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.package.arch.X64R != null" />
+                        </label>
+                        <label class="label cursor-pointer justify-normal mr-2">
+                            <span class="label-text">X86D</span>
+                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.package.arch.X86D != null" />
+                        </label>
+                        <label class="label cursor-pointer justify-normal">
+                            <span class="label-text">X86R</span>
+                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.package.arch.X86R != null" />
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
                 <th>编译器名</th>
                 <td>{{envInfo.compiler.compiler}}</td>
             </tr>
             <tr>
-                <th>安装路径</th>
+                <th>ＶＳ路径</th>
                 <td>{{envInfo.compiler.installPath}}</td>
             </tr>
             <tr v-if="envInfo.compiler.VSToolsBat64">
                 <th>脚本路径</th>
                 <td>{{envInfo.compiler.VSToolsBat64}}</td>
             </tr>
+            <tr>
+                <th>环境变量</th>
+                <td class="overflow-auto">
+                    <div class="form-control flex-row">
+                        <label class="label cursor-pointer justify-normal mr-2">
+                            <span class="label-text">X64D</span>
+                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.envvars.arch.X64D" />
+                        </label>
+                        <label class="label cursor-pointer justify-normal mr-2">
+                            <span class="label-text">X64R</span>
+                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.envvars.arch.X64R" />
+                        </label>
+                        <label class="label cursor-pointer justify-normal mr-2">
+                            <span class="label-text">X86D</span>
+                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.envvars.arch.X86D" />
+                        </label>
+                        <label class="label cursor-pointer justify-normal">
+                            <span class="label-text">X86R</span>
+                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.envvars.arch.X86R" />
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table class="table table-xs">
+                        <tr v-for="(varval, varname) in envInfo.envvars.envvars" :key="varname">
+                            <th class="w-40">{{ varname }}</th>
+                            <td>{{ varval }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
             </table>
         </div>
     </div>
 
-    <div class="flex justify-center">
-    <div class="join">
-        <button class="btn join-item">上一步</button>
-        <button class="btn btn-primary join-item">下一步</button>
-    </div>
+    <div class="flex justify-center mb-2">
+        <div class="join">
+            <!-- <button class="btn join-item">上一步</button> -->
+            <button class="btn btn-primary join-item">下一步</button>
+        </div>
     </div>
 
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import axios from 'axios'
+import { ref, reactive } from 'vue';
+import axios from 'axios';
 
 const envInfo = reactive( {
-    osName: '',
+    osname: '',
     fastdo: {
         path: '',
         version: '',
+    },
+    package: {
+        base: null,
+        include: null,
+        arch: {
+            X64D: null,
+            X64R: null,
+            X86D: null,
+            X86R: null
+        }
     },
     compiler: {
         compiler: '',
         installPath: '',
         VSToolsBat64: ''
     },
-} )
-
+    envvars: {
+        envvars: {},
+        arch: {
+            X64D: false,
+            X64R: false,
+            X86D: false,
+            X86R: false
+        },
+        check: false
+    },
+} );
 
 axios.get('/api/get_compiler_info').then( ( value ) => {
-    envInfo.compiler = value.data
-    console.log(value.data)
-} )
+    envInfo.compiler = value.data;
+    console.log(value.data);
+} );
 axios.get('/api/get_fastdo_info').then( ( value ) => {
-    envInfo.fastdo = value.data
-    console.log(value.data)
-} )
+    envInfo.fastdo = value.data;
+    console.log(value.data);
+} );
+axios.get('/api/get_package_info').then( ( value ) => {
+    envInfo.package = value.data;
+    console.log(value.data);
+} );
 axios.get('/api/get_os_info').then( ( value ) => {
-    envInfo.osName = value.data.os
-    console.log(value.data)
-} )
+    envInfo.osname = value.data.os;
+    console.log(value.data);
+} );
+axios.get('/api/get_envvars_info').then( ( value ) => {
+    envInfo.envvars = value.data;
+    console.log(value.data);
+} );
 
 </script>
 
