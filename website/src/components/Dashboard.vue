@@ -60,19 +60,19 @@
                     <div class="form-control flex-row">
                         <label class="label cursor-pointer justify-normal mr-2">
                             <span class="label-text">X64D</span>
-                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.package.arch.X64D != null" />
+                            <input type="checkbox" class="checkbox ml-1" :checked="envInfo.package.arch.X64D != null" />
                         </label>
                         <label class="label cursor-pointer justify-normal mr-2">
                             <span class="label-text">X64R</span>
-                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.package.arch.X64R != null" />
+                            <input type="checkbox" class="checkbox ml-1" :checked="envInfo.package.arch.X64R != null" />
                         </label>
                         <label class="label cursor-pointer justify-normal mr-2">
                             <span class="label-text">X86D</span>
-                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.package.arch.X86D != null" />
+                            <input type="checkbox" class="checkbox ml-1" :checked="envInfo.package.arch.X86D != null" />
                         </label>
                         <label class="label cursor-pointer justify-normal">
                             <span class="label-text">X86R</span>
-                            <input type="checkbox" class="checkbox checkbox-primary ml-1" :checked="envInfo.package.arch.X86R != null" />
+                            <input type="checkbox" class="checkbox ml-1" :checked="envInfo.package.arch.X86R != null" />
                         </label>
                     </div>
                 </td>
@@ -129,69 +129,18 @@
     <div class="flex justify-center mb-2">
         <div class="join">
             <!-- <button class="btn join-item">上一步</button> -->
-            <button class="btn btn-primary join-item">下一步</button>
+            <button class="btn btn-primary join-item">{{ envInfo.compiler.compiler }}</button>
         </div>
     </div>
 
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
-import axios from 'axios';
-
-const envInfo = reactive( {
-    osname: '',
-    fastdo: {
-        path: '',
-        version: '',
-    },
-    package: {
-        base: null,
-        include: null,
-        arch: {
-            X64D: null,
-            X64R: null,
-            X86D: null,
-            X86R: null
-        }
-    },
-    compiler: {
-        compiler: '',
-        installPath: '',
-        VSToolsBat64: ''
-    },
-    envvars: {
-        envvars: {},
-        arch: {
-            X64D: false,
-            X64R: false,
-            X86D: false,
-            X86R: false
-        },
-        check: false
-    },
-} );
-
-axios.get('/api/get_compiler_info').then( ( value ) => {
-    envInfo.compiler = value.data;
-    console.log(value.data);
-} );
-axios.get('/api/get_fastdo_info').then( ( value ) => {
-    envInfo.fastdo = value.data;
-    console.log(value.data);
-} );
-axios.get('/api/get_package_info').then( ( value ) => {
-    envInfo.package = value.data;
-    console.log(value.data);
-} );
-axios.get('/api/get_os_info').then( ( value ) => {
-    envInfo.osname = value.data.os;
-    console.log(value.data);
-} );
-axios.get('/api/get_envvars_info').then( ( value ) => {
-    envInfo.envvars = value.data;
-    console.log(value.data);
-} );
+import { toRef, toRefs } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useEnvInfoStore } from '../stores/EnvInfoStore';
+//const { envInfo } = storeToRefs(useEnvInfoStore());
+const envInfo = useEnvInfoStore().envInfo;
 
 </script>
 

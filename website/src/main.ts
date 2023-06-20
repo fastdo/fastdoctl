@@ -1,19 +1,13 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import { createRouter, createWebHashHistory } from 'vue-router';
 import './index.css';
-
-let routes = [
-    { path: '/', component: () => import('./components/Dashboard.vue') },
-    { path: '/hello', component: () => import('./components/HelloWorld.vue') },
-];
-
-const router = createRouter( {
-    history: createWebHashHistory(),
-    routes
-} );
+import { createPinia } from 'pinia';
+import router from './router';
 
 const app = createApp(App);
+
 app.use(router);
+app.use(createPinia());
+
 app.config.warnHandler = () => null;
 app.mount('#app');

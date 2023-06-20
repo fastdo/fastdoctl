@@ -32,11 +32,6 @@ int StartupMain( CommandLineVars const & cmdVars )
     CheckFastdoPackage(&packInfo);
     cout << packInfo.myJson(true,"  ","\n") << endl;
 
-    const int a = 100;
-    int b = 200;
-    static const int c = 100;
-
-    printf("%p,%p,%p\n",&a,&b,&c);
 
     return 0;
 }
