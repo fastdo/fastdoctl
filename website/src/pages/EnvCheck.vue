@@ -21,14 +21,7 @@
         </svg>
     </div>
 
-    <div class="flex justify-center">
-        <ul class="steps">
-            <li class="step step-primary">　环境检测　</li>
-            <li class="step">　注册变量　</li>
-            <li class="step">　修改配置　</li>
-            <li class="step">　运行测试　</li>
-        </ul>
-    </div>
+    <StepProgress></StepProgress>
 
     <h1 class="text-2xl text-center pt-4">环境检测</h1>
 
@@ -106,7 +99,7 @@
                     <table class="table table-xs">
                         <tr v-for="(varval, varname) in envInfo.envvars.envvars" :key="varname">
                             <th class="w-40">{{ varname }}</th>
-                            <td>{{ varval }}</td>
+                            <td v-if="varval">{{ varval }}</td><td v-else class="text-error">×</td>
                         </tr>
                     </table>
                 </td>
@@ -117,8 +110,8 @@
 
     <div class="flex justify-center mb-2">
         <div class="join">
-            <!-- <button class="btn join-item">上一步</button> -->
-            <button class="btn btn-primary join-item" @click="nextStep()">NEXT</button>
+            <button class="btn join-item">上一步</button>
+            <button class="btn btn-primary join-item" @click="nextStep()">下一步</button>
         </div>
     </div>
 
@@ -128,12 +121,14 @@
 import { toRef, toRefs } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useEnvInfoStore } from '../stores/EnvInfoStore';
-//const envInfoStore = useEnvInfoStore();
+import StepProgress from '../components/StepProgress.vue';
+
+const envInfoStore = useEnvInfoStore();
 const envInfo = useEnvInfoStore().envInfo;
 
 function nextStep()
 {
-
+    console.log(envInfoStore.envCheckNext);
 }
 
 </script>

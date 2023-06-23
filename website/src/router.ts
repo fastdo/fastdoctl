@@ -1,10 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import EnvCheck from './components/EnvCheck.vue';
+import EnvCheck from './pages/EnvCheck.vue';
 
 export default createRouter( {
     history: createWebHashHistory(),
     routes: [
         { path: '/', component: EnvCheck },
-        { path: '/hello', component: () => import('./components/HelloWorld.vue') },
+        { path: '/hello', component: () => import('./pages/HelloWorld.vue') },
     ]
 } );

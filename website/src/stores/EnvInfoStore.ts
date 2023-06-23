@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
@@ -62,5 +62,9 @@ export const useEnvInfoStore = defineStore( 'EnvInfo', () => {
         console.log(value.data);
     } );
 
-    return { envInfo };
+    const envCheckNext = computed( () => {
+        return false;
+    } );
+
+    return { envInfo, envCheckNext };
 } );
