@@ -51,9 +51,8 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
     StrGetLine( &gppInstallPath, GetExec("which g++"), &i );
     //cout << gccInstallPath << endl;
     compilerInfo->addPair()
-        ( "compiler", gppVersion )
-        ( "installPath", gppInstallPath )
-        ( "script", "" )
+        ( "name", gppVersion )
+        ( "path", gppInstallPath )
     ;
 
     (*compilerInfo)["check"] = gppInstallPath.find("no g++") == String::npos;
@@ -81,7 +80,7 @@ bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )
     Mixed & libConfig = (*libsAllInfo)["lib_config"].createCollection();
     libConfig["file"] = libSoConfigFile;
     libConfig["content"] = content;
-    libConfig["ok"] = libSoConfigOk;
+    libConfig["check"] = libSoConfigOk;
 
     // 检测第三方库
     Mixed * libsInfo = &(*libsAllInfo)["libs"];

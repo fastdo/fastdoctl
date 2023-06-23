@@ -110,6 +110,8 @@ bool CheckFastdoPackage( Mixed * packInfo )
 
     Mixed & arch = (*packInfo)["arch"].createCollection();
 
+    bool & check = ((*packInfo)["check"] = false).refBool();
+
     StringArray archDirs = { "x64-Debug", "x64-Release", "x86-Debug", "x86-Release" };
     for ( auto & archDir : archDirs )
     {
@@ -118,10 +120,11 @@ bool CheckFastdoPackage( Mixed * packInfo )
         if ( DetectPath( CombinePath( basePath, archDir ) ) )
         {
             arch[strArch] = CombinePath( basePath, archDir );
+            if ( !check ) check = true;
         }
     }
 
-    return false;
+    return check;
 }
 
 bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInfo )
@@ -131,12 +134,11 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
     String compilerName, installPath;
 
     bool r = ScanCompilerInstallPath( strRegexSoftwareName, &compilerName, &installPath );
-    (*compilerInfo)["check"] = r;
 
     if ( r )
     {
-        (*compilerInfo)["compiler"] = compilerName;
-        (*compilerInfo)["installPath"] = installPath;
+        (*compilerInfo)["name"] = compilerName;
+        (*compilerInfo)["path"] = installPath;
 
         String vsToolsBat64 = CombinePath( installPath, "VC\\Auxiliary\\Build\\vcvars64.bat" );
         (*compilerInfo)["VSToolsBat64"] = Mixed();
@@ -150,11 +152,10 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
         {
             (*compilerInfo)["VSToolsBat32"] = vsToolsBat32;
         }
-
-        return true;
     }
+    (*compilerInfo)["check"] = r;
 
-    return false;
+    return r;
 }
 
 bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo )

@@ -1,19 +1,8 @@
 <template>
-    <!-- <nav class="bg-indigo-500 p-2 text-white">
-        <ul class="flex flex-row gap-6 overflow-x-auto">
-            <li class="self-center">
-                <svg class="w-12 h-12 stroke-white fill-transparent" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
-                <path d="M 65 68 q 650 -50 10 350" stroke-width="60" fill="none" />
-                <path d="M 159 260 l 240 30" stroke-width="60" fill="none" />
-                </svg>
-            </li>
-            <li class="self-center text-2xl whitespace-nowrap">FastDo Control Center</li>
-        </ul>
-    </nav> -->
     <nav class="navbar bg-primary text-primary-content">
         <div class="flex-none">
             <button class="btn btn-square btn-ghost">
-                <svg class="w-12 h-12 stroke-primary-content fill-transparent" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
+                <svg class="w-12 h-12 stroke-white fill-transparent" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
                     <path d="M 65 68 q 650 -50 10 350" stroke-width="60" fill="none" />
                     <path d="M 159 260 l 240 30" stroke-width="60" fill="none" />
                 </svg>
@@ -48,7 +37,7 @@
             <table class="table">
             <tr>
                 <th class="w-24">操作系统</th>
-                <td>{{envInfo.osname}}</td>
+                <td>{{envInfo.os.name}}</td>
             </tr>
             <tr>
                 <th>控制依赖</th>
@@ -79,11 +68,11 @@
             </tr>
             <tr>
                 <th>编译器名</th>
-                <td>{{envInfo.compiler.compiler}}</td>
+                <td>{{envInfo.compiler.name}}</td>
             </tr>
             <tr>
                 <th>ＶＳ路径</th>
-                <td>{{envInfo.compiler.installPath}}</td>
+                <td>{{envInfo.compiler.path}}</td>
             </tr>
             <tr v-if="envInfo.compiler.VSToolsBat64">
                 <th>脚本路径</th>
@@ -129,7 +118,7 @@
     <div class="flex justify-center mb-2">
         <div class="join">
             <!-- <button class="btn join-item">上一步</button> -->
-            <button class="btn btn-primary join-item">{{ envInfo.compiler.compiler }}</button>
+            <button class="btn btn-primary join-item" @click="nextStep()">NEXT</button>
         </div>
     </div>
 
@@ -139,21 +128,25 @@
 import { toRef, toRefs } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useEnvInfoStore } from '../stores/EnvInfoStore';
-//const { envInfo } = storeToRefs(useEnvInfoStore());
+//const envInfoStore = useEnvInfoStore();
 const envInfo = useEnvInfoStore().envInfo;
+
+function nextStep()
+{
+
+}
 
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
 .table {
     @apply border-collapse w-full table-fixed;
-}
-.table tr {
-    @apply border-b align-top;
-}
-.table tr td {
-    @apply break-words p-1;
+    tr {
+        @apply border-b align-top;
+        td {
+            @apply break-words p-1;
+        }
+    }
 }
 
 </style>

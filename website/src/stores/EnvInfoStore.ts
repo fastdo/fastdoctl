@@ -1,9 +1,12 @@
 import { reactive } from 'vue';
 import { defineStore } from 'pinia';
 import axios from 'axios';
+
 export const useEnvInfoStore = defineStore( 'EnvInfo', () => {
     const envInfo = reactive( {
-        osname: '',
+        os: {
+            name: ''
+        },
         fastdo: {
             path: '',
             version: '',
@@ -16,12 +19,15 @@ export const useEnvInfoStore = defineStore( 'EnvInfo', () => {
                 X64R: null,
                 X86D: null,
                 X86R: null
-            }
+            },
+            check: false
         },
         compiler: {
-            compiler: '',
-            installPath: '',
-            VSToolsBat64: ''
+            name: '',
+            path: '',
+            VSToolsBat64: '',
+            VSToolsBat32: '',
+            check: false
         },
         envvars: {
             envvars: {},
@@ -48,7 +54,7 @@ export const useEnvInfoStore = defineStore( 'EnvInfo', () => {
         console.log(value.data);
     } );
     axios.get('/api/get_os_info').then( ( value ) => {
-        envInfo.osname = value.data.os;
+        envInfo.os = value.data;
         console.log(value.data);
     } );
     axios.get('/api/get_envvars_info').then( ( value ) => {

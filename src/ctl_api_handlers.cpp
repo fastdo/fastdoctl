@@ -13,7 +13,7 @@ bool API_get_os_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RS
 {
     Mixed result;
     result.createCollection();
-    result["os"] = GetOsVersion();
+    result["name"] = GetOsVersion();
     RSP << result.myJson( false, "    ", "\n" );
     return false;
 }
