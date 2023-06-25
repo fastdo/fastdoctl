@@ -41,30 +41,34 @@ export const useEnvInfoStore = defineStore( 'EnvInfo', () => {
         },
     } );
 
-    axios.get('/api/get_compiler_info').then( ( value ) => {
-        envInfo.compiler = value.data;
-        console.log(value.data);
-    } );
-    axios.get('/api/get_fastdo_info').then( ( value ) => {
-        envInfo.fastdo = value.data;
-        console.log(value.data);
-    } );
-    axios.get('/api/get_package_info').then( ( value ) => {
-        envInfo.package = value.data;
-        console.log(value.data);
-    } );
-    axios.get('/api/get_os_info').then( ( value ) => {
-        envInfo.os = value.data;
-        console.log(value.data);
-    } );
-    axios.get('/api/get_envvars_info').then( ( value ) => {
-        envInfo.envvars = value.data;
-        console.log(value.data);
-    } );
+    function fetchData() {
+        axios.get('/api/get_compiler_info').then( ( value ) => {
+            envInfo.compiler = value.data;
+            //console.log(value.data);
+        } );
+        axios.get('/api/get_fastdo_info').then( ( value ) => {
+            envInfo.fastdo = value.data;
+            //console.log(value.data);
+        } );
+        axios.get('/api/get_package_info').then( ( value ) => {
+            envInfo.package = value.data;
+            //console.log(value.data);
+        } );
+        axios.get('/api/get_os_info').then( ( value ) => {
+            envInfo.os = value.data;
+            //console.log(value.data);
+        } );
+        axios.get('/api/get_envvars_info').then( ( value ) => {
+            envInfo.envvars = value.data;
+            //console.log(value.data);
+        } );
+    }
+
+    fetchData();
 
     const envCheckNext = computed( () => {
-        return false;
+        return envInfo.compiler.check && envInfo.package.check;
     } );
 
-    return { envInfo, envCheckNext };
+    return { envInfo, fetchData, envCheckNext };
 } );

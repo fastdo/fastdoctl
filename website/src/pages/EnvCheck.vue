@@ -1,18 +1,4 @@
 <template>
-    <nav class="navbar bg-primary text-primary-content">
-        <div class="flex-none">
-            <button class="btn btn-square btn-ghost">
-                <svg class="w-12 h-12 stroke-white fill-transparent" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
-                    <path d="M 65 68 q 650 -50 10 350" stroke-width="60" fill="none" />
-                    <path d="M 159 260 l 240 30" stroke-width="60" fill="none" />
-                </svg>
-            </button>
-        </div>
-        <div class="flex-1">
-            <a class="btn btn-ghost normal-case text-xl">FastDo Control Center</a>
-        </div>
-    </nav>
-
     <div class="container text-amber-400 stroke-indigo-400 fill-indigo-400 w-48 h-48 border-8 border-indigo-400 mx-auto my-4 p-8 rounded-full shadow-md">
         <svg class="w-full h-full" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480">
         <!-- <rect x="0" y="0" rx="15%" ry="15%" width="480" height="480" /> -->
@@ -21,7 +7,7 @@
         </svg>
     </div>
 
-    <StepProgress></StepProgress>
+    <StepProgress :step="1"></StepProgress>
 
     <h1 class="text-2xl text-center pt-4">环境检测</h1>
 
@@ -110,25 +96,27 @@
 
     <div class="flex justify-center mb-2">
         <div class="join">
-            <button class="btn join-item">上一步</button>
-            <button class="btn btn-primary join-item" @click="nextStep()">下一步</button>
+            <button class="btn btn-primary join-item" :disabled="!envInfoStore.envCheckNext" @click="nextStep()">下一步</button>
         </div>
     </div>
 
 </template>
 
 <script setup lang="ts">
-import { toRef, toRefs } from 'vue';
-import { storeToRefs } from 'pinia';
+import { useRoute, useRouter } from 'vue-router';
 import { useEnvInfoStore } from '../stores/EnvInfoStore';
 import StepProgress from '../components/StepProgress.vue';
 
+const router  = useRouter();
 const envInfoStore = useEnvInfoStore();
 const envInfo = useEnvInfoStore().envInfo;
 
 function nextStep()
 {
-    console.log(envInfoStore.envCheckNext);
+    router.push( {
+        path: 'envvars',
+    } );
+    //console.log(envInfoStore.envCheckNext);
 }
 
 </script>

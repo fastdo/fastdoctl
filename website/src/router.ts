@@ -5,6 +5,7 @@ export default createRouter( {
     history: createWebHashHistory(),
     routes: [
         { path: '/', component: EnvCheck },
-        { path: '/hello', component: () => import('./pages/HelloWorld.vue') },
+        { path: '/envcheck', component: EnvCheck },
+        { path: '/envvars', component: () => import('./pages/EnvVars.vue') },
     ]
 } );
