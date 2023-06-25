@@ -30,7 +30,18 @@ export const useEnvInfoStore = defineStore( 'EnvInfo', () => {
             check: false
         },
         envvars: {
-            envvars: {},
+            vars: {
+                FASTDO_BASE: null,
+                FASTDO_INCLUDE: null,
+                FASTDO_X64D_BIN: null,
+                FASTDO_X64D_LIB: null,
+                FASTDO_X64R_BIN: null,
+                FASTDO_X64R_LIB: null,
+                FASTDO_X86D_BIN: null,
+                FASTDO_X86D_LIB: null,
+                FASTDO_X86R_BIN: null,
+                FASTDO_X86R_LIB: null
+            },
             arch: {
                 X64D: false,
                 X64R: false,

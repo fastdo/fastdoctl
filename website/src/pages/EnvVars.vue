@@ -6,17 +6,55 @@
     <div class="hero">
         <div class="hero-content">
             <table class="table table-xs">
-                <tr v-for="(varval, varname) in envInfo.envvars.envvars" :key="varname">
-                    <th class="w-40">{{ varname }}</th>
-                    <td v-if="varval" class="overflow-auto">{{ varval }}</td><td v-else class="text-error">× <button class="btn btn-xs btn-primary">注册</button></td>
-                </tr>
                 <tr>
                     <th class="w-40">FASTDO_BASE</th>
-                    <td v-if="envInfo.package.base" class="overflow-auto"></td>
+                    <td v-if="envInfo.envvars.vars.FASTDO_BASE" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_BASE }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.base" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
                 </tr>
                 <tr>
-                    <th class="w-40">FASTDO_INCLUDE</th>
-                    <td v-if="envInfo.package.include" class="overflow-auto"></td>
+                    <th>FASTDO_INCLUDE</th>
+                    <td v-if="envInfo.envvars.vars.FASTDO_INCLUDE" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_INCLUDE }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.include" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
+                </tr>
+                <tr>
+                    <th>FASTDO_X64D_BIN</th>
+                    <td v-if="envInfo.envvars.vars.FASTDO_X64D_BIN" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_X64D_BIN }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.arch.X64D" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
+                </tr>
+                <tr>
+                    <th>FASTDO_X64D_LIB</th>
+                    <td v-if="envInfo.envvars.vars.FASTDO_X64D_LIB" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_X64D_LIB }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.arch.X64D" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
+                </tr>
+                <tr>
+                    <th>FASTDO_X64R_BIN</th>
+                    <td v-if="envInfo.envvars.vars.FASTDO_X64R_BIN" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_X64R_BIN }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.arch.X64R" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
+                </tr>
+                <tr>
+                    <th>FASTDO_X64R_LIB</th>
+                    <td v-if="envInfo.envvars.vars.FASTDO_X64R_LIB" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_X64R_LIB }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.arch.X64R" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
+                </tr>
+                <tr>
+                    <th>FASTDO_X86D_BIN</th>
+                    <td v-if="envInfo.envvars.vars.FASTDO_X86D_BIN" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_X86D_BIN }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.arch.X86D" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
+                </tr>
+                <tr>
+                    <th>FASTDO_X86D_LIB</th>
+                    <td v-if="envInfo.envvars.vars.FASTDO_X86D_LIB" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_X86D_LIB }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.arch.X86D" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
+                </tr>
+                <tr>
+                    <th>FASTDO_X86R_BIN</th>
+                    <td v-if="envInfo.envvars.vars.FASTDO_X86R_BIN" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_X86R_BIN }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.arch.X86R" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
+                </tr>
+                <tr>
+                    <th>FASTDO_X86R_LIB</th>
+                    <td v-if="envInfo.envvars.vars.FASTDO_X86R_LIB" class="overflow-auto">{{ envInfo.envvars.vars.FASTDO_X86R_LIB }}</td><td v-else class="text-error">×
+                    <button v-if="envInfo.package.arch.X86R" class="btn btn-xs btn-primary">注册</button><ErrorBadge v-else>不能注册</ErrorBadge></td>
                 </tr>
             </table>
         </div>
@@ -35,6 +73,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { useEnvInfoStore } from '../stores/EnvInfoStore';
 import StepProgress from '../components/StepProgress.vue';
+import ErrorBadge from '../components/ErrorBadge.vue';
 
 const router  = useRouter();
 const envInfoStore = useEnvInfoStore();

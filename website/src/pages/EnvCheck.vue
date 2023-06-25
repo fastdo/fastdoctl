@@ -83,7 +83,7 @@
             <tr>
                 <td colspan="2">
                     <table class="table table-xs">
-                        <tr v-for="(varval, varname) in envInfo.envvars.envvars" :key="varname">
+                        <tr v-for="(varval, varname) in envInfo.envvars.vars" :key="varname">
                             <th class="w-40">{{ varname }}</th>
                             <td v-if="varval">{{ varval }}</td><td v-else class="text-error">×</td>
                         </tr>

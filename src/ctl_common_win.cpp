@@ -233,7 +233,7 @@ bool CheckEnvVars( Mixed * info )
         "X86R_LIB"
     };
     info->createCollection();
-    Mixed & envvars = (*info)["envvars"].createCollection();
+    Mixed & envvars = (*info)["vars"].createCollection();
     // 初始设为Mixed(MT_NULL)
     for ( String const & var : targetVars )
     {

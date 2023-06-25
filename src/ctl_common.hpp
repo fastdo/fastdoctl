@@ -34,13 +34,13 @@ String GetOsVersion();
 String GetCurrentFastdoPackage();
 
 // 检测fastdo软件包
-// base:
-// include:
+// base: string | null
+// include: string | null
 // arch:
-//     X64D:
-//     X64R:
-//     X86D:
-//     X86R:
+//     X64D: string | null
+//     X64R: string | null
+//     X86D: string | null
+//     X86R: string | null
 bool CheckFastdoPackage( Mixed * packInfo );
 
 // 扫描系统内的软件安装信息，获取安装路径
@@ -57,7 +57,20 @@ bool CheckCompilerInfo( String const & strRegexSoftwareName, Mixed * compilerInf
 bool CheckThirdpartiesLibs( StringArray const & libs, Mixed * libsAllInfo );
 
 // 检测环境变量
+//{
+//    vars: {},
+//    arch: {
+//        X64D: false,
+//        X64R: false,
+//        X86D: false,
+//        X86R: false
+//    },
+//    check: false
+//}
 bool CheckEnvVars( Mixed * info );
+
+// 注册变量
+bool RegisterVars( Mixed const & packInfo );
 
 // 修改ecp.conf文件中编译器启动脚本路径的配置VSToolsBat
 bool ModifyEcpConfig( Mixed const & configs );
