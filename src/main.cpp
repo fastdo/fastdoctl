@@ -21,17 +21,18 @@ void StartupServer()
 
 int StartupMain( CommandLineVars const & cmdVars )
 {
-    Mixed info;
-    Mixed info2;
-    ScanSoftwareInstalledInfo( "Visual Studio.* 2017", &info );
-    cout << info.myJson(true,"  ","\n") << endl;
+    //Mixed info;
+    //Mixed info2;
+    //ScanSoftwareInstalledInfo( "Visual Studio.* 2017", &info );
+    //cout << info.myJson(true,"  ","\n") << endl;
 
-    CheckEnvVars(&info2);
-    cout << info2.myJson(true,"  ","\n") << endl;
+    //CheckEnvVars(&info2);
+    //cout << info2.myJson(true,"  ","\n") << endl;
     Mixed packInfo;
     CheckFastdoPackage(&packInfo);
     cout << packInfo.myJson(true,"  ","\n") << endl;
 
+    RegisterVars(packInfo, "");
 
     return 0;
 }

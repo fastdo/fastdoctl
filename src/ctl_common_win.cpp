@@ -271,6 +271,43 @@ bool CheckEnvVars( Mixed * info )
     return (*info)["check"] = baseOk && includeOk && archOk;
 }
 
+bool RegisterVars( Mixed const & packInfo, Mixed const & registerVars )
+{
+    String strKey = R"(HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment)";
+    if ( registerVars.isArray() )
+    {
+    }
+    else
+    {
+        Registry key(strKey);
+        if ( packInfo["base"] )
+        {
+            key.setValue( "FASTDO_BASE", packInfo["base"] );
+        }
+
+        if ( packInfo["include"] )
+        {
+            key.setValue( "FASTDO_INCLUDE", "%FASTDO_BASE%" + StrSubtract( packInfo["include"], packInfo["base"] ), REG_EXPAND_SZ );
+        }
+
+        Mixed const & archs = packInfo["arch"];
+        if ( archs.isCollection() )
+        {
+            for ( size_t i = 0; i < archs.getCount(); ++i )
+            {
+                auto & pr = archs.getPair(i);
+                if ( pr.second )
+                {
+                    key.setValue( "FASTDO_" + pr.first.toAnsi() + "_BIN", "%FASTDO_BASE%" + StrSubtract( pr.second, packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                    key.setValue( "FASTDO_" + pr.first.toAnsi() + "_LIB", "%FASTDO_BASE%" + StrSubtract( pr.second, packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                }
+            }
+        }
+        SendMessageTimeout( HWND_BROADCAST, WM_SETTINGCHANGE, 0, (LPARAM)TEXT("Environment"), SMTO_ABORTIFHUNG, 3000, nullptr );
+    }
+    return false;
+}
+
 bool ModifyEcpConfig( Mixed const & configs )
 {
     String exePath = FilePath( GetExecutablePath() );
