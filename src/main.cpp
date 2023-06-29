@@ -32,7 +32,7 @@ int StartupMain( CommandLineVars const & cmdVars )
     CheckFastdoPackage(&packInfo);
     cout << packInfo.myJson(true,"  ","\n") << endl;
 
-    RegisterVars(packInfo, "");
+    RegisterVars(packInfo, nullptr);
 
     return 0;
 }
