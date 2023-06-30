@@ -16,6 +16,8 @@ void StartupServer()
     SET_API_HANDLER( app, get_fastdo_info );
     SET_API_HANDLER( app, get_package_info );
 
+    SET_API_HANDLER( app, register_vars );
+
     app.run(nullptr);
 }
 

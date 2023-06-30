@@ -96,7 +96,7 @@
 
     <div class="flex justify-center mb-2">
         <div class="join">
-            <button class="btn btn-primary join-item" :disabled="!envInfoStore.envCheckNext" @click="nextStep()">下一步</button>
+            <button class="btn btn-primary join-item" :disabled="!envInfoStore.EnvCheckCanNext" @click="nextStep()">下一步</button>
         </div>
     </div>
 

@@ -77,3 +77,8 @@ bool API_get_webserver_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Respon
     RSP << result.myJson( false, "    ", "\n" );
     return false;
 }
+
+bool API_register_vars( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
+{
+    return false;
+}

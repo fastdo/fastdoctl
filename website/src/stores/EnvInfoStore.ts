@@ -77,9 +77,44 @@ export const useEnvInfoStore = defineStore( 'EnvInfo', () => {
 
     fetchData();
 
-    const envCheckNext = computed( () => {
+    function registerVars() {
+        axios.get('/api/register_vars').then( ( value ) => {
+
+        } );
+    }
+
+    // 环境检测页是否可进行下一步
+    const EnvCheckCanNext = computed( () => {
         return envInfo.compiler.check && envInfo.package.check;
     } );
 
-    return { envInfo, fetchData, envCheckNext };
+    // 变量页面是否能注册变量
+    const EnvVarsCanRegister = computed( () => {
+        if ( !envInfo.envvars.vars.FASTDO_BASE ) {
+            if ( envInfo.package.base ) {
+                return true;
+            }
+        }
+        if ( !envInfo.envvars.vars.FASTDO_INCLUDE ) {
+            if ( envInfo.package.include ) {
+                return true;
+            }
+        }
+        const archs = [ 'X64D', 'X64R', 'X86D', 'X86R' ];
+        for (const arch of archs) {
+            if ( !envInfo.envvars.vars['FASTDO_' + arch + '_BIN'] ) {
+                if ( envInfo.package.arch[arch] ) {
+                    return true;
+                }
+            }
+            if ( !envInfo.envvars.vars['FASTDO_' + arch + '_LIB'] ) {
+                if ( envInfo.package.arch[arch] ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    } );
+
+    return { envInfo, fetchData, registerVars, EnvCheckCanNext, EnvVarsCanRegister };
 } );
