@@ -64,7 +64,7 @@
         <div class="join">
             <button class="btn join-item" @click="prevStep()">上一步</button>
             <button class="btn btn-accent join-item" :disabled="!envInfoStore.EnvVarsCanRegister" @click="registerVars()">注册</button>
-            <button class="btn btn-primary join-item" :disabled="!envInfoStore.EnvCheckCanNext" @click="nextStep()">下一步</button>
+            <button class="btn btn-primary join-item" :disabled="!envInfo.envvars.check" @click="nextStep()">下一步</button>
         </div>
     </div>
 
@@ -85,7 +85,7 @@ function prevStep() {
 }
 
 function nextStep() {
-    envInfoStore.fetchData();
+    router.push( { path: 'modifyconfig' } );
 }
 
 function registerVars() {

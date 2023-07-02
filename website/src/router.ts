@@ -7,5 +7,6 @@ export default createRouter( {
         { path: '/', component: EnvCheck },
         { path: '/envcheck', component: EnvCheck },
         { path: '/envvars', component: () => import('./pages/EnvVars.vue') },
+        { path: '/modifyconfig', component: () => import('./pages/ModifyConfig.vue') },
     ]
 } );

@@ -273,7 +273,8 @@ bool CheckEnvVars( Mixed * info )
 
 bool RegisterVars( Mixed const & packInfo, Mixed const & registerVars )
 {
-    bool r = false;
+    bool r = true;
+    bool isExec = false;
     String strKey = R"(HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment)";
     Registry key(strKey);
     if ( registerVars.isArray() )
@@ -284,100 +285,120 @@ bool RegisterVars( Mixed const & packInfo, Mixed const & registerVars )
             std::map< String, std::function< void () > > cond = {
                 {
                     "FASTDO_BASE",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         if ( packInfo["base"] )
                         {
-                            key.setValue( varName, packInfo["base"] );
+                            isExec = true;
+                            bool v = key.setValue( varName, packInfo["base"] );
+                            if ( r ) r = v;
                         }
                     }
                 },
                 {
                     "FASTDO_INCLUDE",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         if ( packInfo["include"] )
                         {
-                            key.setValue( "FASTDO_INCLUDE", "%FASTDO_BASE%" + StrSubtract( packInfo["include"], packInfo["base"] ), REG_EXPAND_SZ );
+                            isExec = true;
+                            bool v = key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( packInfo["include"], packInfo["base"] ), REG_EXPAND_SZ );
+                            if ( r ) r = v;
                         }
                     }
                 },
                 {
                     "FASTDO_X64D_BIN",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         Mixed const & archs = packInfo["arch"];
                         CollateIdentifierToArray(varName);
                         if ( archs.isCollection() && archs["X64D"] )
                         {
-                            key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X64D"], packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                            isExec = true;
+                            bool v = key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X64D"], packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                            if ( r ) r = v;
                         }
                     }
                 },
                 {
                     "FASTDO_X64D_LIB",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         Mixed const & archs = packInfo["arch"];
                         if ( archs.isCollection() && archs["X64D"] )
                         {
-                            key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X64D"], packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                            isExec = true;
+                            bool v = key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X64D"], packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                            if ( r ) r = v;
                         }
                     }
                 },
                 {
                     "FASTDO_X64R_BIN",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         Mixed const & archs = packInfo["arch"];
                         if ( archs.isCollection() && archs["X64R"] )
                         {
-                            key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X64R"], packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                            isExec = true;
+                            bool v = key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X64R"], packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                            if ( r ) r = v;
                         }
                     }
                 },
                 {
                     "FASTDO_X64R_LIB",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         Mixed const & archs = packInfo["arch"];
                         if ( archs.isCollection() && archs["X64R"] )
                         {
-                            key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X64R"], packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                            isExec = true;
+                            bool v = key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X64R"], packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                            if ( r ) r = v;
                         }
                     }
                 },
                 {
                     "FASTDO_X86D_BIN",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         Mixed const & archs = packInfo["arch"];
                         if ( archs.isCollection() && archs["X86D"] )
                         {
-                            key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X86D"], packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                            isExec = true;
+                            bool v = key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X86D"], packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                            if ( r ) r = v;
                         }
                     }
                 },
                 {
                     "FASTDO_X86D_LIB",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         Mixed const & archs = packInfo["arch"];
                         if ( archs.isCollection() && archs["X86D"] )
                         {
-                            key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X86D"], packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                            isExec = true;
+                            bool v = key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X86D"], packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                            if ( r ) r = v;
                         }
                     }
                 },
                 {
                     "FASTDO_X86R_BIN",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         Mixed const & archs = packInfo["arch"];
                         if ( archs.isCollection() && archs["X86R"] )
                         {
-                            key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X86R"], packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                            isExec = true;
+                            bool v = key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X86R"], packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                            if ( r ) r = v;
                         }
                     }
                 },
                 {
                     "FASTDO_X86R_LIB",
-                    [varName, &packInfo, &key] () {
+                    [varName, &packInfo, &key, &r, &isExec] () {
                         Mixed const & archs = packInfo["arch"];
                         if ( archs.isCollection() && archs["X86R"] )
                         {
-                            key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X86R"], packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                            isExec = true;
+                            bool v = key.setValue( varName, "%FASTDO_BASE%" + StrSubtract( archs["X86R"], packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                            if ( r ) r = v;
                         }
                     }
                 },
@@ -386,7 +407,6 @@ bool RegisterVars( Mixed const & packInfo, Mixed const & registerVars )
             if ( isset( cond, varName ) )
             {
                 cond[varName]();
-                r = true;
             }
         }
     }
@@ -394,12 +414,16 @@ bool RegisterVars( Mixed const & packInfo, Mixed const & registerVars )
     {
         if ( packInfo["base"] )
         {
-            key.setValue( "FASTDO_BASE", packInfo["base"] );
+            isExec = true;
+            bool v = key.setValue( "FASTDO_BASE", packInfo["base"] );
+            if ( r ) r = v;
         }
 
         if ( packInfo["include"] )
         {
-            key.setValue( "FASTDO_INCLUDE", "%FASTDO_BASE%" + StrSubtract( packInfo["include"], packInfo["base"] ), REG_EXPAND_SZ );
+            isExec = true;
+            bool v = key.setValue( "FASTDO_INCLUDE", "%FASTDO_BASE%" + StrSubtract( packInfo["include"], packInfo["base"] ), REG_EXPAND_SZ );
+            if ( r ) r = v;
         }
 
         Mixed const & archs = packInfo["arch"];
@@ -410,15 +434,22 @@ bool RegisterVars( Mixed const & packInfo, Mixed const & registerVars )
                 auto & pr = archs.getPair(i);
                 if ( pr.second )
                 {
-                    key.setValue( "FASTDO_" + pr.first.toAnsi() + "_BIN", "%FASTDO_BASE%" + StrSubtract( pr.second, packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
-                    key.setValue( "FASTDO_" + pr.first.toAnsi() + "_LIB", "%FASTDO_BASE%" + StrSubtract( pr.second, packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                    isExec = true;
+                    bool v = false;
+                    v = key.setValue( "FASTDO_" + pr.first.toAnsi() + "_BIN", "%FASTDO_BASE%" + StrSubtract( pr.second, packInfo["base"] ) + "\\bin", REG_EXPAND_SZ );
+                    if ( r ) r = v;
+                    v = key.setValue( "FASTDO_" + pr.first.toAnsi() + "_LIB", "%FASTDO_BASE%" + StrSubtract( pr.second, packInfo["base"] ) + "\\lib", REG_EXPAND_SZ );
+                    if ( r ) r = v;
                 }
             }
         }
-        SendMessageTimeout( HWND_BROADCAST, WM_SETTINGCHANGE, 0, (LPARAM)TEXT("Environment"), SMTO_ABORTIFHUNG, 3000, nullptr );
-        r = true;
     }
-    return r;
+
+    if ( isExec && r )
+    {
+        SendMessageTimeout( HWND_BROADCAST, WM_SETTINGCHANGE, 0, (LPARAM)TEXT("Environment"), SMTO_ABORTIFHUNG, 3000, nullptr );
+    }
+    return isExec && r;
 }
 
 bool ModifyEcpConfig( Mixed const & configs )

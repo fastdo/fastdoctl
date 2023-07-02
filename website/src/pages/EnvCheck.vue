@@ -80,7 +80,7 @@
                     </div>
                 </td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <td colspan="2">
                     <table class="table table-xs">
                         <tr v-for="(varval, varname) in envInfo.envvars.vars" :key="varname">
@@ -89,7 +89,7 @@
                         </tr>
                     </table>
                 </td>
-            </tr>
+            </tr> -->
             </table>
         </div>
     </div>
