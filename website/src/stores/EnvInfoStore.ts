@@ -79,7 +79,7 @@ export const useEnvInfoStore = defineStore( 'EnvInfo', () => {
 
     function registerVars() {
         axios.get('/api/register_vars').then( ( value ) => {
-
+            console.log(value.data);
         } );
     }
 

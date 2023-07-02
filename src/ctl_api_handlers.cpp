@@ -80,5 +80,14 @@ bool API_get_webserver_info( SharedPointer<HttpRequestCtx> requestCtxPtr, Respon
 
 bool API_register_vars( SharedPointer<HttpRequestCtx> requestCtxPtr, Response & RSP, StringArray & urlPathPartArr, size_t i )
 {
+    Mixed result;
+    Mixed packInfo;
+    result.createCollection();
+    if ( CheckFastdoPackage(&packInfo) )
+    {
+        Request & REQ = *requestCtxPtr.get();
+        result["ok"] = RegisterVars( packInfo, REQ.get.has("vars") ? REQ.get["vars"] : Mixed() );
+    }
+    RSP << result.myJson( false, "    ", "\n" );
     return false;
 }

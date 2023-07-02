@@ -89,7 +89,7 @@ function nextStep() {
 }
 
 function registerVars() {
-
+    envInfoStore.registerVars();
 }
 
 </script>
