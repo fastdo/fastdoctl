@@ -3,7 +3,7 @@
 
     <h1 class="text-2xl text-center pt-4">修改配置</h1>
 
-    <div class="container mx-auto">
+    <div class="container mx-auto p-4">
         <div class="col">
             <h3>Nginx配置</h3>
         </div>
@@ -22,7 +22,6 @@
 import { useRoute, useRouter } from 'vue-router';
 import { useEnvInfoStore } from '../stores/EnvInfoStore';
 import StepProgress from '../components/StepProgress.vue';
-import ErrorBadge from '../components/ErrorBadge.vue';
 
 const router  = useRouter();
 const envInfoStore = useEnvInfoStore();
